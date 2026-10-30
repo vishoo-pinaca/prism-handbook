@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PRISM, explained: questions, answers and a glossary | Pinaca Labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F5F8; --surface:#FFFFFF; --ink:#172033; --muted:#5A6478; --line:#DCE1E9;
+  --accent:#0E7C78; --accent-soft:#E2F2F0; --mark:#FFE9A8;
+  --sans:"Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1522; --surface:#161E2D; --ink:#E6EAF2; --muted:#9AA4B8; --line:#263044;
+    --accent:#4CC2B8; --accent-soft:#16302F; --mark:#5A4A12; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1522; --surface:#161E2D; --ink:#E6EAF2; --muted:#9AA4B8; --line:#263044;
+  --accent:#4CC2B8; --accent-soft:#16302F; --mark:#5A4A12; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 84px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+.hero{max-width:1120px;margin:0 auto;padding:56px 24px 40px;display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:center}
+.hero h1{font-size:clamp(2.3rem,5.4vw,4rem);line-height:1.02;letter-spacing:-.03em;font-weight:800;margin:0 0 18px}
+.hero p{font-family:var(--serif);font-size:1.2rem;line-height:1.55;color:var(--muted);max-width:34em;margin:0}
+.hero svg{width:100%;height:auto;max-width:440px;justify-self:end}
+.beam{stroke-dasharray:260;stroke-dashoffset:260;animation:draw 1.1s ease-out .2s forwards}
+.ray{opacity:0;animation:fan .9s ease-out 1.1s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fan{to{opacity:1}}
+
+.controls{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.controls-inner{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.search{flex:1 1 260px;position:relative}
+.search input{width:100%;font:inherit;font-size:1rem;padding:11px 14px 11px 40px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+.search input::placeholder{color:var(--muted)}
+.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.btn{font:inherit;font-size:.92rem;font-weight:600;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.count{font-size:.9rem;color:var(--muted);min-width:9em;text-align:right}
+
+.wrap{max-width:1120px;margin:0 auto;padding:32px 24px 80px;display:grid;grid-template-columns:230px 1fr;gap:48px}
+nav.toc{position:sticky;top:90px;align-self:start}
+nav.toc p{font-size:.85rem;color:var(--muted);margin:0 0 10px}
+nav.toc ol{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
+nav.toc a{display:flex;justify-content:space-between;gap:8px;padding:6px 0 6px 14px;margin-left:-2px;border-left:2px solid transparent;color:var(--muted);text-decoration:none;font-size:.94rem}
+nav.toc a:hover{color:var(--ink)}
+nav.toc a.on{color:var(--ink);border-left-color:var(--accent);font-weight:600}
+nav.toc span{font-variant-numeric:tabular-nums;opacity:.7}
+nav.toc li.gl{margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+
+section.group{margin-bottom:48px}
+section.group[hidden]{display:none}
+.group h2{font-size:1.5rem;letter-spacing:-.015em;margin:0 0 4px;font-weight:700}
+.group .sub{color:var(--muted);margin:0 0 16px;font-size:.98rem}
+
+.item{border-top:1px solid var(--line)}
+.item:last-child{border-bottom:1px solid var(--line)}
+.item[hidden]{display:none}
+.q{all:unset;box-sizing:border-box;width:100%;display:grid;grid-template-columns:1fr 28px;gap:16px;align-items:start;padding:18px 4px;cursor:pointer;font-size:1.1rem;font-weight:600;line-height:1.35}
+.q:hover .qt{color:var(--accent)}
+.q:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.icon{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);position:relative;transition:transform .25s ease,background .25s ease,border-color .25s ease;margin-top:-2px}
+.icon::before,.icon::after{content:"";position:absolute;left:50%;top:50%;width:11px;height:1.8px;background:var(--ink);transform:translate(-50%,-50%);border-radius:2px}
+.icon::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .25s ease}
+.item.open .icon{background:var(--accent);border-color:var(--accent);transform:rotate(180deg)}
+.item.open .icon::before,.item.open .icon::after{background:var(--surface)}
+.item.open .icon::after{transform:translate(-50%,-50%) rotate(0deg)}
+.panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+.item.open .panel{grid-template-rows:1fr}
+.panel>div{overflow:hidden}
+.a{font-family:var(--serif);font-size:1.12rem;line-height:1.62;padding:0 44px 22px 4px;max-width:44em}
+.a .lead{font-family:var(--sans);font-size:1.04rem;line-height:1.5;font-weight:500;padding-left:14px;border-left:3px solid var(--accent);margin:0 0 .9em}
+.a p{margin:0 0 .7em}
+.a ul{margin:0 0 .7em;padding-left:1.2em}
+.a li{margin-bottom:.3em}
+.a strong{font-weight:500}
+.ref{display:inline-block;font-family:var(--sans);font-size:.82rem;color:var(--accent);background:var(--accent-soft);padding:3px 9px;border-radius:999px;margin-top:4px}
+.check{font-family:var(--sans);font-size:.95rem;line-height:1.5;background:var(--mark);border-radius:10px;padding:10px 14px;margin:.2em 0 .9em}
+.check strong{display:block;font-weight:700;margin-bottom:2px}
+
+/* Start here */
+section.start{margin-bottom:56px}
+section.start[hidden]{display:none}
+.start h2{font-size:1.5rem;letter-spacing:-.015em;margin:0 0 4px;font-weight:700}
+.start .sub{color:var(--muted);margin:0 0 20px;font-size:.98rem}
+.start h3{font-size:1.08rem;margin:0 0 12px;font-weight:700}
+.label{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.pitch{font-family:var(--serif);font-size:1.3rem;line-height:1.45;margin:0 0 32px;padding:18px 22px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.pitch .label{font-family:var(--sans)}
+.pitch p{margin:0}
+.flow{margin:0 0 32px;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.lane{border-radius:12px;padding:14px}
+.lane.video{background:var(--bg);border:1px solid var(--line)}
+.lane.ai{background:var(--accent-soft);border:1px solid var(--accent)}
+.lane.ai .label{color:var(--accent)}
+.steps{display:flex;align-items:stretch;gap:8px}
+.step{flex:1 1 0;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.step b{display:block;font-size:.98rem}
+.step span{display:block;font-size:.88rem;color:var(--muted);line-height:1.4;margin-top:2px}
+.arr{flex:0 0 18px;align-self:center;color:var(--muted);display:grid;place-items:center}
+.bridge{display:flex;justify-content:center;gap:32px;padding:10px 0;font-size:.9rem;color:var(--ink)}
+.bridge span{display:flex;align-items:center;gap:6px}
+.bridge svg{color:var(--accent)}
+.flow-notes{margin:14px 0 0;padding:0;list-style:none;font-size:.95rem;line-height:1.5}
+.flow-notes li{margin-top:6px}
+.ideas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0 0 20px}
+.idea{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.idea .num{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--surface);font-weight:700;font-size:.85rem;margin-bottom:8px}
+.idea b{display:block;font-size:1.05rem;line-height:1.3;margin-bottom:4px}
+.idea p{margin:0;font-family:var(--serif);font-size:1.05rem;line-height:1.5}
+.tip{padding:14px 18px;border-radius:12px;background:var(--mark);font-size:1rem}
+
+/* Glossary */
+.gloss{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:40px;margin:0}
+.term{padding:14px 0;border-top:1px solid var(--line);break-inside:avoid}
+.term[hidden]{display:none}
+.term dt{font-weight:700;font-size:1.02rem;margin:0 0 3px}
+.term dd{margin:0;font-family:var(--serif);font-size:1.05rem;line-height:1.55;color:var(--ink)}
+.term dd em{color:var(--muted)}
+
+.brand{max-width:1120px;margin:0 auto;padding:22px 24px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.logo{display:block;width:150px;aspect-ratio:840/132;background:var(--ink);-webkit-mask:url(data:image/png;base64,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) center/contain no-repeat;mask:url(data:image/png;base64,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) center/contain no-repeat}
+.brand small{font-size:.9rem;color:var(--muted)}
+footer .logo{width:96px;margin-bottom:10px}
+mark{background:var(--mark);color:inherit;border-radius:2px;padding:0 1px}
+.empty{font-family:var(--serif);font-size:1.15rem;color:var(--muted);padding:24px 0}
+footer{max-width:1120px;margin:0 auto;padding:0 24px 48px;color:var(--muted);font-size:.92rem}
+footer p{border-top:1px solid var(--line);padding-top:20px;margin:0}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;padding-top:36px}
+  .hero svg{justify-self:start;max-width:320px}
+  .wrap{grid-template-columns:minmax(0,1fr);gap:8px}
+  nav.toc{position:static}
+  nav.toc ol{display:flex;gap:8px;overflow-x:auto;border-left:0;padding-bottom:6px}
+  nav.toc li{flex:0 0 auto}
+  nav.toc li.gl{margin:0;padding:0;border:0}
+  nav.toc a{border:1px solid var(--line);border-radius:999px;padding:6px 12px;margin:0;background:var(--surface)}
+  nav.toc a.on{border-color:var(--accent)}
+  .count{display:none}
+  .a{padding-right:8px}
+  .gloss{grid-template-columns:1fr}
+  .steps{flex-direction:column}
+  .arr{transform:rotate(90deg)}
+  .bridge{flex-direction:column;align-items:center;gap:4px}
+  .ideas{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .beam{stroke-dashoffset:0}.ray{opacity:1}
+  html{scroll-behavior:auto}
+}
+/* Print: every answer expanded, no controls */
+@media print{
+  :root,:root:not([data-theme="light"]),:root[data-theme="dark"]{
+    --bg:#FFFFFF; --surface:#FFFFFF; --ink:#000000; --muted:#444B57; --line:#CCD2DB;
+    --accent:#0E7C78; --accent-soft:#E2F2F0; --mark:#FFF1C2; color-scheme:light;
+  }
+  .controls,nav.toc,.hero svg,body::before,.icon{display:none!important}
+  .hero{display:block;padding:24px 24px 8px}
+  .wrap{display:block;padding-top:8px}
+  .panel{grid-template-rows:1fr!important}
+  .q{padding:12px 0 6px}
+  .a{padding:0 0 12px}
+  .item,.flow,.idea,.pitch,.term{break-inside:avoid}
+  .start h3,.group h2,.group .sub{break-after:avoid}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+
+<div class="brand">
+  <span class="logo" role="img" aria-label="Pinaca"></span>
+  <small>PRISM is a product of Pinaca Labs</small>
+</div>
+
+<header class="hero">
+  <div>
+    <h1>PRISM, explained for everyone in the room</h1>
+    <p>Start with the one-page overview, then look up any question people ask in the workshop. Every answer opens in plain words, with the detail underneath. A glossary at the end decodes the jargon for sales, marketing and defence audiences.</p>
+  </div>
+  <svg viewBox="0 0 440 260" role="img" aria-label="A beam of light entering a prism and splitting into a spectrum">
+    <polygon points="200,30 290,210 110,210" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+    <line class="beam" x1="0" y1="150" x2="162" y2="128" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+    <g class="ray" stroke-width="5" stroke-linecap="round">
+      <line x1="236" y1="124" x2="440" y2="70"  stroke="#E5484D"/>
+      <line x1="238" y1="130" x2="440" y2="104" stroke="#F59E0B"/>
+      <line x1="240" y1="136" x2="440" y2="138" stroke="#EAD136"/>
+      <line x1="242" y1="142" x2="440" y2="172" stroke="#22A06B"/>
+      <line x1="244" y1="148" x2="440" y2="206" stroke="#0E7C78"/>
+      <line x1="246" y1="154" x2="440" y2="240" stroke="#5B5BD6"/>
+    </g>
+  </svg>
+</header>
+
+<div class="controls">
+  <div class="controls-inner">
+    <label class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <input id="q" type="search" placeholder="Search questions and terms, e.g. “alerts”, “cameras”, “GPU”" aria-label="Search questions and glossary">
+    </label>
+    <button class="btn" id="toggleAll" type="button">Open all</button>
+    <span class="count" id="count" aria-live="polite"></span>
+  </div>
+</div>
+
+<main class="wrap">
+  <nav class="toc" aria-label="Topics">
+    <p>Topics</p>
+    <ol id="toc"></ol>
+  </nav>
+  <div id="groups">
+    <section class="start" id="start" aria-labelledby="start-h">
+      <h2 id="start-h">Start here</h2>
+      <p class="sub">Five minutes that make the rest of this page make sense.</p>
+
+      <div class="pitch">
+        <p class="label">The pitch</p>
+        <p>One box on site that watches every camera, remembers what it saw, and checks every alarm before it reaches a person, without the data ever leaving the premises.</p>
+      </div>
+
+      <h3>How a camera feed moves through PRISM</h3>
+      <figure class="flow" role="group" aria-label="Diagram: the video path carries frames from the camera to the live view with no AI. AI plugins sit beside it, receive frames, and send back only findings.">
+        <div class="lane video">
+          <p class="label">The video path · moves pictures, contains no AI</p>
+          <div class="steps">
+            <div class="step"><b>Camera</b><span>Video comes in over the network</span></div>
+            <div class="arr" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+            <div class="step"><b>1 · Connect</b><span>Unpacks each frame once, draws the boxes the AI sends back</span></div>
+            <div class="arr" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+            <div class="step"><b>Live view and recording</b><span>Never goes dark</span></div>
+          </div>
+        </div>
+        <div class="bridge">
+          <span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v11M4 9l4 4 4-4"/></svg>A shared copy of each frame goes to the AI</span>
+          <span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 14V3M4 7l4-4 4 4"/></svg>Only findings come back: boxes and names</span>
+        </div>
+        <div class="lane ai">
+          <p class="label">AI plugins · beside the video, switched on per camera</p>
+          <div class="steps">
+            <div class="step"><b>2 · Detect</b><span>Where is something? Faces, people, vehicles</span></div>
+            <div class="arr" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+            <div class="step"><b>3 · Recognize</b><span>Who is it? Names for known faces</span></div>
+            <div class="arr" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+            <div class="step"><b>4 · Understand</b><span>Search, alerts and investigation cases</span></div>
+          </div>
+        </div>
+        <ul class="flow-notes">
+          <li><strong>If the AI stops,</strong> operators lose boxes and names for a moment. The picture keeps moving.</li>
+          <li><strong>Cameras without AI switched on</strong> skip the AI entirely: they are relayed and recorded, at no GPU cost.</li>
+        </ul>
+      </figure>
+
+      <h3>Four ideas that explain most of PRISM</h3>
+      <div class="ideas">
+        <div class="idea"><span class="num">1</span><b>AI sits beside the video, never in it</b><p>The part that moves video contains no AI. A detector can crash, restart or be upgraded and the cameras keep playing.</p></div>
+        <div class="idea"><span class="num">2</span><b>GPU memory is the budget</b><p>Every AI camera and feature shares one graphics card’s memory. That is why AI is switched on per camera, and why each change is checked against capacity before it is applied.</p></div>
+        <div class="idea"><span class="num">3</span><b>People decide who is who</b><p>PRISM names people already in its gallery. For anyone new, it collects and groups their faces, and an operator decides who they are.</p></div>
+        <div class="idea"><span class="num">4</span><b>Decide from the promises</b><p>Nine promises, such as “live video never goes dark”, settle design arguments. A change that would break one goes back to the product owner. <a href="#promises">See all nine</a>.</p></div>
+      </div>
+
+      <p class="tip"><strong>Talking to a customer?</strong> Read <a href="#never-claim">What should we never claim?</a> first. Answers with a highlighted <em>Check before promising</em> note flag a limit to raise with the product team before promising anything.</p>
+    </section>
+  </div>
+</main>
+
+<footer><p><span class="logo" role="img" aria-label="Pinaca"></span>© 2026 Pinaca Labs. PRISM and ASTRA are products of Pinaca Labs. Sources: the “PRISM: Product Rundown” workshop deck (“Slide”) and the numbered rules in PRISM Design Guidelines (“Design rule”). Where they differ, this page follows the deck, which reflects the October 2026 plugin cutover. Quote figures with the dates they were measured.</p></footer>
+
+<script>
+/* Each item: q = question, s = plain-words answer, d = detail (HTML, optional), r = source,
+   c = "check before promising" note (optional), a = anchor id for links (optional) */
+const DATA = [
+ { id:"why", title:"Why PRISM", sub:"The problem, the audience and the promises behind every design choice.", items:[
+  {q:"What problem does PRISM actually solve?",
+   s:"Cameras record all day, but almost nobody watches the footage, searching it is slow, recorder alarms cry wolf, and the data is too sensitive to send off-site. PRISM fixes all four on one box at the customer’s site.",
+   d:`<ul><li><strong>Most video is never watched.</strong> Operators see a few tiles; the rest goes unseen.</li>
+   <li><strong>Recordings are hard to search.</strong> Finding one person in yesterday’s footage can take hours.</li>
+   <li><strong>Recorder alarms are noisy.</strong> Every motion fires one, so the real alarms get buried.</li>
+   <li><strong>The data can’t leave.</strong> Faces, plates and camera passwords must stay on the premises.</li></ul>`, r:"Slide 3"},
+  {q:"In one sentence, what is PRISM?",
+   s:"An on-site AI system that watches every camera, recognises known faces, lets you search footage by description, and filters alarms so operators see the ones that matter.",
+   d:`<p>It runs on one GPU server at the customer’s site; a smaller edge box is in development. Ingest and detection are table stakes; the value customers pay for is recognition, search, alerts and investigation.</p>`, r:"Slide 4"},
+  {q:"Who is PRISM built for?",
+   s:"Four groups: the operators who watch screens, the site owners who pay, the integrators who build on it, and our own engineering team.",
+   d:`<ul><li><strong>Operators</strong> get a live view that never goes dark, instant boxes, one alert inbox and search.</li>
+   <li><strong>Site owners</strong> get one box on site, AI only where it pays, and data kept local.</li>
+   <li><strong>Integrators</strong> get an open API, live events and a machine-readable contract.</li>
+   <li><strong>Our team</strong> gets one codebase for both GPU servers and Jetson, with rehearsed releases.</li></ul>`, r:"Slide 5"},
+  {a:"promises", q:"What are the “nine promises”, and why do they matter?",
+   s:"Nine rules the product never breaks. Any change that would break one goes back to the product owner first.",
+   d:`<ul><li><strong>What the operator sees (P1–P5):</strong> recognition on the sharpest image; a box the instant a face appears; cameras get the GPU before anything else; live video never goes dark; a failed liveness check is never called a spoof.</li>
+   <li><strong>How we behave as a vendor (P6–P7):</strong> our tuned logic is protected but the integration surface stays open; we never change a customer’s recorder.</li>
+   <li><strong>Trust and continuity (P8–P9):</strong> faces, plates and keys never leave the box; the command center works like ASTRA.</li></ul>
+   <p>P1, P6, P8 and P9 are confirmed product rules. P2–P5 and P7 are enforced by the code today and still need a formal sign-off.</p>`, r:"Slide 6"},
+  {q:"What’s ASTRA?",
+   s:"PRISM’s sibling product. The same operators use both, so the two command centers have to look and behave alike.",
+   d:`<p>Camera onboarding, the sidebar and status indicators match across both products (promise P9).</p>`, r:"Slides 5, 6"},
+  {q:"What did we give up to build it this way?",
+   s:"Four deliberate trade-offs. Each has a known cost that we design around rather than hide.",
+   d:`<ul><li><strong>One box, one GPU:</strong> data stays on site and cost is predictable, but GPU memory limits how many cameras get AI.</li>
+   <li><strong>AI switched on per camera:</strong> no GPU cost until someone asks for AI, but every change is checked against capacity first, and some are refused.</li>
+   <li><strong>People decide who is who:</strong> no machine-made accusations, but operators have review work.</li>
+   <li><strong>Half-closed product:</strong> our tuned logic is protected, but field debugging is harder and it can’t stop someone with full admin access to the box.</li></ul>`, r:"Slide 7"}
+ ]},
+ { id:"system", title:"How the system works", sub:"The four stages, and what happens when something fails.", items:[
+  {q:"How does a camera feed move through PRISM?",
+   s:"Four stages: connect the camera, detect what’s in the picture, recognise who or what it is, then make it searchable and alertable.",
+   d:`<ul><li><strong>Connect:</strong> brings the camera in and decodes each frame once.</li>
+   <li><strong>Detect:</strong> “where is something?” Boxes around faces, people and vehicles.</li>
+   <li><strong>Recognize:</strong> “who is it?” Names for known faces, and anonymous faces for review.</li>
+   <li><strong>Understand:</strong> search, events, alerts and investigation cases.</li></ul>
+   <p>Only the first stage sits on the path the live video takes. The rest sit beside it.</p>`, r:"Slide 8"},
+  {q:"If the AI crashes, do the cameras go down too?",
+   s:"No. The live video and the AI run separately. If the AI stops, operators lose the boxes and names for a moment, but the picture keeps playing.",
+   d:`<p>The part that moves video (npipe) contains no AI at all. Every detector is a separate plugin that reads a shared copy of each frame and sends back only what it found. A plugin can crash, restart or be upgraded without touching a camera. Putting “just one small model” back inside the video path is rejected on principle: the next restart would take the cameras down with it.</p>`, r:"Slides 11, 12; rule 2"},
+  {q:"What does “decode once, share the frame” mean?",
+   s:"Each video frame is unpacked once, and every AI feature looks at that same copy. Adding a new feature costs almost nothing extra.",
+   d:`<p>Each frame gets a unique ID that follows it everywhere, so when a detector says “there’s a face here in frame 1042”, the recognition step cuts the face out of exactly that frame. That ID matching is treated as sacred: if it drifted, the system would crop the wrong picture.</p>`, r:"Slide 12; rules 1–2"},
+  {q:"Why does PRISM detect on a small image but recognise on a big one?",
+   s:"Finding a face is fast on a small image; naming it accurately needs every pixel. So PRISM finds it small and cuts it out at full resolution.",
+   d:`<p>Detection sends only coordinates, not pictures. Recognition then crops from the full-resolution frame. More face pixels means better accuracy (promise P1). Because full-resolution frames are only kept for a few seconds, this step is kept short and fast.</p>`, r:"Rules 3–4"},
+  {q:"What frame rate does PRISM need from a camera?",
+   s:"At least 10 frames per second. Faster cameras are thinned automatically, for example from 25 to 12.5.",
+   d:`<p>Below 10 fps, live video looks choppy and there aren’t enough frames to pick a good face. A built-in limiter measures each camera’s real rate and thins it by itself, so nobody needs to tune this per camera.</p>`, r:"Rules 5–6"},
+  {q:"How many software services run on one box?",
+   s:"About two dozen, each with one job, so a fault in one doesn’t spread to the others.",
+   d:`<p>Plus shared infrastructure (database, message queue, gateway, web dashboard). The forensics option adds six more.</p>`, r:"Slide 10"},
+  {q:"Can PRISM link a face to a vehicle and its plate?",
+   s:"No. Nothing links a person to a vehicle today.",
+   d:`<p>The fusion model that would join face, vehicle and plate is the one piece on the architecture diagram that isn’t built. Whether to build it is an open product decision.</p>`, r:"Slide 9"}
+ ]},
+ { id:"reliability", title:"Reliability and data safety", sub:"What happens when a camera, a service or the disk misbehaves.", items:[
+  {q:"Will an operator ever see a black screen?",
+   s:"The system is built to avoid it. If a camera stalls, a holding image fills the gap until video returns, and one broken camera can’t affect the others.",
+   d:`<p>To an operator, a black tile means “the system is down”, even when only the AI has paused. Each camera has its own isolated pipeline. One honest limit: a camera beyond the box’s hardware video-encoder limit shows the holding image even though detection still works.</p>`, r:"Slides 15, 19; rule 24"},
+  {q:"Does PRISM fix itself, or does someone need to restart things?",
+   s:"It fixes itself. Every service watches its own health and restarts after short-lived problems, with nobody touching it.",
+   d:`<p>Restarts back off gradually so a persistent fault doesn’t cause a restart storm. Importantly, an empty corridor at night is not treated as a fault: a quiet scene is not a broken scene. Only an almost total drop in activity can trigger a restart; a smaller drop raises an alert and nothing else.</p>`, r:"Rule 25"},
+  {q:"Why can object boxes take a few minutes to appear after a fresh install?",
+   s:"On its first start, the object detector prepares its AI model for that machine’s graphics card, which can take minutes. It is busy, not broken.",
+   d:`<p>The service reports itself healthy while it prepares, so nobody should restart it. The prepared model only works on the graphics card it was built on, which is why it can’t simply be copied from another box.</p>`, r:"Slide 20; rules 7, 19"},
+  {q:"If the system crashes, do we lose events or alerts?",
+   s:"No. Events are queued in a way that survives a crash, and anything not yet processed is picked up again on restart.",
+   d:`<p>Alerts are always recorded before they’re announced, so nothing appears on screen that isn’t stored. A restart also never re-fires old alerts from history.</p>`, r:"Rules 16, 27"},
+  {q:"Why is live video so low-latency?",
+   s:"PRISM passes the camera’s video straight through without re-compressing it, which saves 2–3 seconds of delay and about 10× the processing.",
+   d:`<p>The trade-off: the final streaming step can’t draw overlays or watermarks itself, so boxes are drawn earlier in the pipeline.</p>`, r:"Rule 26"},
+  {q:"What happens when the disk fills up?",
+   s:"At 85% full, the oldest footage is removed, and the operator is told. Nothing is deleted silently.",
+   d:`<p>Only one service is allowed to delete anything, so there’s one retention policy, not competing ones. A file still being written is never deleted. Footage where nothing moved can be expired earlier than footage with activity.</p>`, r:"Slide 23; rule 29"},
+  {q:"How long is each kind of data kept?",
+   s:"Longer for more valuable data: alerts 72 hours, audit logs 7 days, event images about 30 days, recordings by the site’s retention policy.",
+   d:`<ul><li>Rejected faces: 1 hour</li><li>Face crops and saved frames: hours</li><li>Alerts: 72 hours</li><li>Audit logs: 7 days</li><li>Unknown faces: per-camera retention</li><li>Event images: about 30 days</li><li>Recordings: by retention policy and disk pressure</li><li>Investigation cases: until the case is deleted</li></ul>`, r:"Rule 29"},
+  {q:"Does recorded playback line up with what actually happened?",
+   s:"Yes. The timeline is measured from the real recordings, so the video and the event marker show the same moment.",
+   d:`<p>Two past bugs shaped this: a growing file once shifted playback so the timeline showed a person while the video showed an empty room, and assumed segment lengths drifted the timeline by about 50 minutes by evening. Both are now designed out. A day that’s still recording keeps updating even through a camera gap.</p>`, r:"Rule 30"}
+ ]},
+ { id:"cameras", title:"Cameras and AI on demand", sub:"Onboarding, plugins and respect for equipment we don’t own.", items:[
+  {q:"Does every camera use AI?",
+   s:"No. Every camera is recorded, but AI is switched on only for the cameras where it’s wanted. Cameras without AI cost no GPU.",
+   d:`<p>Since 20 October 2026, a camera starts as a plain recording camera. Switching on the first AI plugin starts the AI for that camera; switching off the last stops it. API callers that send no plugin choice keep AI, as before.</p>`, r:"Slide 13"},
+  {q:"Which AI features can be switched on?",
+   s:"Three plugins today: Faces, Objects and Embeddings. Plates and Cascades are listed as coming soon.",
+   d:`<ul><li><strong>Faces:</strong> a box on every face the moment it appears, and a name for people already in the gallery.</li>
+   <li><strong>Objects:</strong> finds people and vehicles wherever something is moving, and follows each one within that camera.</li>
+   <li><strong>Embeddings:</strong> makes the people and vehicles PRISM follows searchable, by words (“man in a red shirt”) or by example picture.</li></ul>
+   <p>One rule for now: while every AI camera gets face detection, Faces must stay on whenever another plugin is on.</p>`, r:"Slide 13"},
+  {q:"What if I switch on AI and the box doesn’t have room?",
+   s:"PRISM checks capacity before applying the change, and refuses it if it won’t fit, instead of failing quietly later.",
+   d:`<p>It checks GPU memory, the face engine’s camera limit, video encoder sessions, frame memory and licence seats. The hard limits refuse the change outright; GPU memory is a soft limit that can be overridden deliberately.</p>`, r:"Slide 13"},
+  {q:"How are cameras added?",
+   s:"PRISM scans the site and finds cameras itself. Cameras that can’t be reached directly can push video to it, and even a laptop webcam can join.",
+   d:`<ul><li><strong>Network Setup</strong> finds cameras by ONVIF and falls back to known RTSP addresses if ONVIF is off.</li>
+   <li><strong>RTMP push</strong> for cameras that send video out rather than wait to be called.</li>
+   <li><strong>Browser webcams</strong> over WebRTC; they stop when the tab closes.</li></ul>
+   <p>A camera keeps its identity even if its IP address changes, and a camera that disappears from the network is marked “missing since”, so an unplugged camera is easy to find.</p>`, r:"Slide 24; rule 31"},
+  {q:"Could PRISM lock my cameras out with wrong passwords?",
+   s:"It’s built not to. It tries the password that worked before, at most three new ones, and then stops and tells the operator.",
+   d:`<p>If a known password is refused, PRISM reports the camera as “temporarily locked” rather than “wrong password” and doesn’t keep trying, because more attempts deepen the lockout. The operator can still choose “register anyway”. The camera’s record keeps only a label saying which known credential worked, not the password, and camera addresses are saved without passwords in them.</p>`, r:"Slides 17, 24; rule 31"},
+  {q:"Will PRISM change my NVR’s settings?",
+   s:"Never. It reads the recorder’s settings and tells you which menu to change, but never changes anything itself.",
+   d:`<p>AI-capable NVRs can feed their alarms into PRISM, read-only, with every message logged. Since recorders lock an account after five failed logins, PRISM waits 15 minutes after a refusal.</p>`, r:"Slides 17, 23"},
+  {q:"Is it safe to control PTZ cameras from PRISM?",
+   s:"Yes. Every continuous pan or tilt move carries a built-in timeout, so the camera stops by itself if the stop command never arrives.",
+   d:`<p>The timeout is 10 seconds by default. It covers the cases where an operator’s “stop” gets lost: a dropped connection or a closed browser tab. Some cameras would otherwise keep panning until someone stopped them by hand. PRISM also checks whether a camera actually supports PTZ before sending commands.</p>`, r:"Slide 17; rule 32"}
+ ]},
+ { id:"identity", title:"Recognition and identity", sub:"Faces, liveness, plates (coming soon), and who has the final say.", items:[
+  {q:"How does PRISM recognise a face?",
+   s:"It draws a box the instant a face appears, cuts that face out of the full-quality frame, and compares it against the people already in its gallery. On a match, the name appears automatically.",
+   d:`<p>The comparison uses a numeric “fingerprint” of the face (an embedding). On a match, that person keeps the same ID on every camera all day, which is what makes appearance history and contact tracing possible. This automatic naming only applies to people already known; for anyone new, see the next question.</p>`, r:"Slides 20, 21; rule 8"},
+  {q:"Does the system decide who an unknown person is?",
+   s:"No. The system collects and groups unknown faces; a human decides who they are.",
+   d:`<p>Every unknown face is enrolled into an anonymous watchlist after a quality check. Similar faces are grouped and shown to an operator, who can name, merge or dismiss them. Lower-quality faces still go to an Unknown Faces store and remain searchable for a set period. No face is lost, and a wrong name on screen costs more trust than a missing one.</p>`, r:"Slide 16; rule 10"},
+  {q:"Can PRISM follow a person or vehicle across cameras?",
+   s:"People, yes, through face recognition. Vehicles and people without a visible face are tracked only within a single camera.",
+   d:`<p>There is no “looks the same” re-identification for objects. Vision search can find “a man in a red shirt” on every camera, but it never claims that the man on camera 3 is the same man on camera 1. Contact tracing is built on face identity and on who was seen on the same camera at the same time.</p>`, r:"Slide 16; rule 8"},
+  {q:"Does recognition get better over time?",
+   s:"Yes, by itself. When PRISM sees a known person in a better picture, it swaps that in for a weaker one, keeping up to 10 per person.",
+   d:`<p>Near-identical pictures are skipped, so looping or static footage can’t fill a person’s gallery with the same frame.</p>`, r:"Slide 16; rule 9"},
+  {q:"What is liveness, and could it wrongly accuse someone?",
+   s:"Liveness checks whether a face is a real person or a photo or screen. If it can’t tell, it says “unverifiable”, never “spoof”.",
+   d:`<p>A missing model, a face smaller than 100 pixels, an infrared (night-vision) frame or a busy system all give “unverifiable”. At normal CCTV distance most faces are unverifiable, and that’s expected. Liveness is optional per camera and uses no GPU memory.</p>`, r:"Slide 16; rule 11"},
+  {a:"plates", q:"Does PRISM read number plates?",
+   s:"Plate reading is listed as coming soon, so don’t offer it to a customer yet. Here is how it is designed to work.",
+   d:`<p>While a vehicle passes, PRISM collects several sharp shots of its plate and combines them into one read per vehicle, rather than one per frame. A read is committed only when it rests on at least 3 frames and reaches a confidence score of 0.72. The plate rules (the “grammar”) are tuned for Indian plates, and the region setting matters: the wrong region gives confident wrong plates rather than no plate.</p>`, r:"Slides 13, 21; rule 12"},
+  {q:"How quickly does a name appear on screen?",
+   s:"The box appears straight away; the name follows within a second in the worst case measured so far.",
+   d:`<p>The worst case from face to name was 945 ms (just under a second), measured on 14 July 2026, before the October plugin change. “A name within one second” is a candidate promise (C5), not yet formally made.</p>
+   <p>You may also hear “2.7 seconds down to 17 ms”. That was one internal step inside recognition getting faster, not the time a person waits on screen.</p>`, r:"Slides 14, 26; rule 19"}
+ ]},
+ { id:"search", title:"Search, alerts and investigations", sub:"Getting value out of footage nobody watched.", items:[
+  {q:"Can I search footage by describing what I’m looking for?",
+   s:"Yes. Type something like “man in a red shirt”, or point at an example picture, and PRISM finds matches across cameras.",
+   d:`<p>The best 3 frames of each tracked person or vehicle are indexed, which keeps search fast without losing quality. Queries can also take the form “person near car”. Scores only make sense relative to each other, so the screen never shows them as percentages: 0.18 is a strong match in this scale, and “18%” would look like a failure.</p>`, r:"Slide 22; rules 13–14"},
+  {q:"How are PRISM alerts different from my recorder’s alarms?",
+   s:"A recorder alarms on every motion. PRISM can check each alarm first, for example looking for a known face, before bothering an operator.",
+   d:`<p>Alert workflows run 1 to 8 checks, such as a face check, a scene check or a search. Every kind of alert lands in one inbox with one acknowledge flow, and alerts are kept 72 hours. If a check can’t run because a service is warming up, that time window is retried, never skipped.</p>`, r:"Slide 22; rule 16"},
+  {q:"What are Activity Layers?",
+   s:"A way to teach the system by example: mark some moments as normal and others as suspicious, and PRISM flags new activity that looks like the suspicious ones.",
+   d:`<p>A flag has to clearly beat the closest “normal” example, which reduces false alarms. Cooldowns stop looping footage from triggering the same alert repeatedly. Example pictures are copied into the layer so they don’t expire with the original footage.</p>`, r:"Slide 22; rule 15"},
+  {q:"Can I investigate footage recorded elsewhere?",
+   s:"Yes. Forensics lets an investigator upload footage and search it as if PRISM had watched it live, organised as a case.",
+   d:`<p>One job runs at a time, and everything it produces is kept until the case is deleted, never aged out mid-investigation. By default it shares the GPU with live cameras. A faster mode that pauses live video exists but ships switched off; if used, a safety switch guarantees live video comes back even if the investigation job crashes.</p>`, r:"Slide 25; rule 17"}
+ ]},
+ { id:"limits", title:"Capacity and limits", sub:"The numbers that bound what we can promise.", items:[
+  {q:"How many cameras can one box handle?",
+   s:"Every camera can be recorded. How many get AI depends on GPU memory; today’s face engine serves 8 AI cameras per box by default.",
+   d:`<p>Think of the graphics card’s memory as a fixed budget that every AI camera and feature draws from:</p>
+   <ul><li>Face engine: <strong>8 cameras</strong> at today’s default. More needs a larger engine, built on the target machine’s GPU.</li>
+   <li>Each AI camera lane: roughly <strong>150 MB</strong> (an estimate, not a measurement).</li>
+   <li>Each recognition worker: about <strong>480 MiB</strong>, roughly half a gigabyte, or the cost of about two cameras.</li>
+   <li>The box keeps at least <strong>300 MiB</strong> free, or it refuses new AI cameras.</li>
+   <li><strong>9 cameras</strong> ran on the 8 GB development laptop, measured before the plugin cutover. Treat it as a floor, not today’s figure.</li></ul>
+   <p>A fresh capacity measurement since the October plugin change hasn’t been done yet.</p>`, r:"Slides 14, 26"},
+  {q:"What happens to a ninth AI camera?",
+   s:"It keeps its video but gets no boxes, and today it raises no error. That silent behaviour is a known gap awaiting a product decision.",
+   d:"", r:"Slide 20"},
+  {q:"Why not run more copies of the recognition software to go faster?",
+   s:"Each extra copy (a recognition worker) uses GPU memory that cameras need. So PRISM makes one copy do more work at once instead. Cameras always come first.",
+   d:`<p>One worker costs roughly the memory of two cameras. Speeding up the single worker cut one recognition step from 2.7 seconds to 17 ms with no extra memory.</p>
+   <p>The trap this avoids: an automatic scaler (logic that adds resources when a queue grows) that took memory from cameras would see the queue shrink and think it had succeeded, while those cameras quietly lost their boxes.</p>
+   <p>This is about copies of software sharing one graphics card. More AI cameras need more GPU memory, which means a larger GPU.</p>`, r:"Slides 14, 26; rule 19"},
+  {q:"How does PRISM avoid wasting the GPU on empty scenes?",
+   s:"A cheap motion check runs first. Heavy object detection only runs where something is actually moving.",
+   d:`<p>The same motion data later lets storage expire “nothing happened” footage sooner.</p>`, r:"Slide 14; rule 18"},
+  {q:"Is there a smaller box for edge sites?",
+   s:"One is in development: a Jetson Orin NX, a small 8 GB box for small or remote sites. Don’t quote what it can run until the product team confirms it.",
+   d:`<p>It runs the same product and code as the server, with a few device-specific settings. On a box this size, memory, not heat, is the limiting factor.</p>`, r:"Slide 4; rule 36"},
+  {q:"Why are faces cut out of the picture immediately?",
+   s:"Full-resolution frames are only kept for about four seconds, so anything that needs a sharp picture has to grab it straight away.",
+   d:"", r:"Slides 19, 26; rule 3"}
+ ]},
+ { id:"trust", title:"Privacy, security and access", sub:"What stays on the box, who can do what, and what integrators can build on.", items:[
+  {q:"Does any customer data leave the site?",
+   s:"No. Faces, plates, camera passwords and licence keys stay on the box.",
+   d:`<p>Inside the box PRISM is careful too: a camera’s record keeps only a label saying which known credential worked, not the password, and camera addresses are saved without passwords embedded in them.</p>`, r:"Slides 6, 17; rule 31"},
+  {q:"Who can do what? Are there user roles?",
+   s:"Four roles: Viewer, Operator, Admin and Superadmin. Viewers can only look; Operators can also start and stop cameras; Admins can change settings; Superadmin sits above Admin.",
+   d:`<p>An API key (how other software logs in) acts as an Admin, never a Superadmin. Every change made through the system is recorded automatically with its before and after state.</p>`, r:"Rule 33"},
+  {q:"Is there an audit trail?",
+   s:"Yes. Every change made through the system is logged automatically, showing what it was before and after.",
+   d:`<p>Audit logs are currently kept for 7 days.</p>`,
+   c:"Seven days is short for many government and defence buyers. If a customer needs longer audit retention, raise it with the product team rather than promising it.", r:"Rules 29, 33"},
+  {q:"Is PRISM open or closed? Can integrators build on it?",
+   s:"Half and half, on purpose. Everything an integrator builds on is open; the tuned logic that makes PRISM better than competitors is compiled and protected.",
+   d:`<ul><li><strong>Open:</strong> the API, data models, settings, metrics and the whole dashboard.</li>
+   <li><strong>Protected:</strong> the matcher, search planner, plate grammar and quality gates, as compiled code.</li>
+   <li><strong>Sealed:</strong> AI model weights, only ever opened in memory.</li></ul>
+   <p>A build check fails if anything is accidentally left open or accidentally closed. The API is designed to be consistent and changes slowly.</p>`, r:"Slide 18; rules 33–34"},
+  {q:"Can someone copy PRISM from a licensed box?",
+   s:"It’s hard: they’d need to reverse-engineer compiled code and defeat hardware-bound licence keys. But it won’t stop someone with full admin (root) access to the machine.",
+   d:`<p>Nobody should tell a customer otherwise.</p>`, r:"Slide 18; rule 34"},
+  {q:"How is access to the box secured?",
+   s:"Everyone reaches the box through one secure front door, the gateway, over encrypted connections. Internal services, such as the ones that find and start cameras, can’t be reached from the browser directly.",
+   d:`<p>Separately, the licence is tied to the box’s hardware. That protects PRISM against being copied; it doesn’t control who logs in. One gap: the licence library has no documentation of its own yet.</p>`, r:"Slides 23, 24; rule 31"}
+ ]},
+ { id:"talking", title:"Talking about PRISM", sub:"For sales, marketing and defence conversations.", items:[
+  {q:"What’s the one-line pitch?",
+   s:"One box on site that watches every camera, remembers what it saw, and checks every alarm before it reaches a person, without the data ever leaving the premises.",
+   d:"", r:"Slide 3"},
+  {a:"never-claim", q:"What should we never claim?",
+   s:"Anything the product doesn’t do, or hasn’t been measured to do. These are the claims most likely to come up:",
+   d:`<ul><li><strong>Tracking across cameras:</strong> that PRISM follows vehicles, or people whose face isn’t visible, from camera to camera. Only faces carry identity across cameras, and nothing yet links a person to a vehicle.</li>
+   <li><strong>Percentages:</strong> that search results are a “percentage match”.</li>
+   <li><strong>Speed:</strong> that it guarantees a name within one second. 945 ms worst case was measured, but it isn’t a formal promise yet.</li>
+   <li><strong>Anti-spoofing:</strong> that liveness catches photos or screens at normal CCTV distance. At that distance most faces come back “unverifiable”.</li>
+   <li><strong>Accuracy:</strong> any face-recognition accuracy figure. None has been published.</li>
+   <li><strong>Plates:</strong> that plate reading is available today. It is listed as coming soon, and is tuned for Indian plates.</li>
+   <li><strong>Jetson:</strong> any camera count, frame rate or AI feature for the Jetson edge box, until the product team confirms them.</li>
+   <li><strong>Copy protection:</strong> that it stops someone with full admin (root) access to a licensed box.</li>
+   <li><strong>Unconfirmed defence asks:</strong> a fully air-gapped install, or audit logs kept longer than 7 days.</li></ul>
+   <p>Always quote numbers with the date they were measured.</p>`, r:"Slides 13, 16, 21, 22, 25, 26; rules 11, 29, 36"},
+  {q:"Why does “people decide who is who” matter to a customer?",
+   s:"Because the system never decides on its own who a new person is. It names people already in its gallery; every new identity is confirmed by an operator.",
+   d:`<p>That protects innocent people from a machine-made identification, reduces liability, and keeps a person accountable for who goes into the system. A wrong name on screen costs more trust than a missing one. Liveness follows the same principle: when unsure, it says so rather than accusing a real person of spoofing.</p>`, r:"Slide 16; rules 10–11"},
+  {q:"What matters most for defence and government sites?",
+   s:"Data sovereignty and control: everything runs on the customer’s premises, no data leaves the site, and a human confirms every new identity.",
+   d:`<ul><li>No data leaves the site; a camera’s record keeps a label for its working credential, not the password.</li>
+   <li>Role-based access and an automatic audit trail (logs kept 7 days today).</li>
+   <li>Never modifies existing recorders; takes their alarms read-only.</li>
+   <li>Hardware-bound licensing; AI model weights never stored as plain files.</li>
+   <li>Live video keeps running even if the AI fails.</li></ul>`, r:"Slides 17, 18, 25; rules 29, 31–34, 36"},
+  {q:"What’s different from a normal NVR or VMS?",
+   s:"An NVR records and alarms on every motion. PRISM understands what it sees: it names known faces, searches by description and filters alarms before a human sees them.",
+   d:`<p>PRISM records every camera itself. It can also take alarms from AI-capable recorders a site already has, read-only, and it never changes their configuration.</p>`, r:"Slides 3, 10, 22, 23"}
+ ]},
+ { id:"next", title:"Open decisions and next steps", sub:"What’s still undecided, and where to read more.", items:[
+  {q:"What’s still undecided or unfinished?",
+   s:"A handful of product decisions and missing pieces, all known and tracked.",
+   d:`<ul><li>The silent ninth camera, and cameras past the encoder limit showing a holding image.</li>
+   <li>Whether to build the face–vehicle–plate fusion model.</li>
+   <li>Formal sign-off on promises P2–P5 and P7.</li>
+   <li>Whether to commit to “a name within one second” (C5).</li>
+   <li>A fresh capacity measurement since the plugin cutover.</li>
+   <li>The Plates and Cascades plugins.</li>
+   <li>The Jetson edge box: what it will run, and when.</li>
+   <li>Documentation for the licence library.</li></ul>`, r:"Slides 9, 15, 20, 26; rule 36"},
+  {q:"How are releases tested before reaching a customer?",
+   s:"Every release is rehearsed exactly as a customer would install it.",
+   d:`<p>The customer package keeps its own copy of the configuration, and a parity check stops it drifting from the tested version. That check exists because a fix once reached development but not the customer package, and shipped broken.</p>`, r:"Slide 25; rule 35"},
+  {q:"Where can I go deeper?",
+   s:"The engineering deck for detail, and a few documents in the repository.",
+   d:`<ul><li><strong>PRISM: High-Level Design</strong>, every service in depth.</li>
+   <li><strong>product-principles.md</strong>, the promises and the code that enforces each.</li>
+   <li><strong>guidelines/GUIDELINES.md</strong>, the 36 design rules in plain words.</li>
+   <li><strong>ontology.md</strong>, what PRISM stores and how it connects.</li>
+   <li><strong>prism-core/MODELS_REFERENCE.md</strong>, the data model and API contract.</li></ul>`, r:"Slide 27"},
+  {q:"If I remember only one thing, what should it be?",
+   s:"Decide from the promises. Keep AI beside the video, never in it. Let people, not the system, decide who is who.",
+   d:"", r:"Slide 27"}
+ ]}
+];
+
+const GLOSSARY = [
+ ["Activity Layer","A saved search you teach by example: mark moments as normal or suspicious, and PRISM flags new moments like the suspicious ones."],
+ ["Alert inbox","The single place where every kind of PRISM alert lands, to be reviewed and acknowledged."],
+ ["Alert workflow","A short chain of AI checks (such as a face check or a scene check) that a recorder’s alarm passes through before reaching an operator."],
+ ["Anonymous watchlist","Where unknown faces are kept, unnamed, until an operator decides who they are."],
+ ["API","The documented interface other software uses to talk to PRISM. Partners build their own tools on it."],
+ ["ASTRA","PRISM’s sibling product. Both share the same command-center look and feel."],
+ ["Audit log","An automatic record of every change: who did what, and what it was before and after."],
+ ["Bounding box","The rectangle drawn around a face, person or vehicle on screen."],
+ ["Camera lane","The processing path for one AI-enabled camera. Each uses some GPU memory."],
+ ["Case","A forensic investigation: uploaded footage and everything found in it, kept until the case is deleted."],
+ ["Cooldown","A pause after an alert so the same event doesn’t fire again and again."],
+ ["Crop","A cut-out of part of a picture, such as just the face or just the plate."],
+ ["Decode / encode","Unpacking compressed camera video into pictures, and packing pictures back into video."],
+ ["Edge device","A small computer placed at the site itself, like a remote post, rather than in a server room."],
+ ["Embedding","A list of numbers that captures what a face or image looks like, so a computer can compare them. Think of it as a visual fingerprint."],
+ ["Encoder session","A slot on the graphics chip for compressing video. Each box has a fixed number."],
+ ["Enrolment","Adding a face to the system’s memory so it can be recognised later."],
+ ["Forensics","Searching footage after the fact, including footage uploaded from elsewhere."],
+ ["fps (frames per second)","How many pictures per second a camera sends. PRISM needs at least 10."],
+ ["Frame","One still picture from a video."],
+ ["Frame pool","A short-term memory holding the last few seconds of full-quality frames that every AI feature reads from."],
+ ["Gallery","The stored pictures of each known person, up to 10, improving automatically."],
+ ["Gateway","The single secure front door through which everyone reaches the box."],
+ ["GPU","The graphics processor that runs the AI. Its memory is PRISM’s scarcest resource."],
+ ["GPU memory (VRAM)","Memory on the graphics card. It sets how many cameras can have AI on one box."],
+ ["H.264","A common video compression format used by most security cameras."],
+ ["Half-closed","Open where customers build, protected where our know-how lives, sealed for the AI models."],
+ ["Hotlist","A list of plates or people that should trigger an alert when seen."],
+ ["Jetson Orin NX","A small, low-power NVIDIA computer with 8 GB memory. PRISM’s edge box, in development."],
+ ["Licence seat","A paid allowance for one camera or feature on a box."],
+ ["Liveness","A check that a face is a real person, not a photo or a screen. Answers live, spoof or unverifiable."],
+ ["LPR / ANPR","Licence plate recognition, also called automatic number plate recognition."],
+ ["MediaMTX","The video server that relays, records and streams every camera to the browser."],
+ ["Motion gating","Running heavy AI only where something is moving, to save the GPU."],
+ ["NVR / VMS","Network video recorder, or video management system: the existing equipment that records cameras."],
+ ["On-premises","Running on the customer’s own hardware at their site, not in the cloud."],
+ ["ONVIF","An industry standard that lets PRISM discover and talk to cameras from many brands."],
+ ["Operator","The person watching screens and responding to alerts."],
+ ["Passage","One vehicle driving past a camera. Plate reading, once available, produces one read per passage."],
+ ["Holding image (placeholder frame)","The image shown when a camera stalls, so the screen never goes black."],
+ ["Plugin","An AI feature switched on per camera: Faces, Objects or Embeddings today, with Plates and Cascades listed as coming soon."],
+ ["Plugin cutover","The 20 October 2026 change that made AI a per-camera switch. Figures measured before it may not match today’s product."],
+ ["Appearance history","Where and when a known person has been seen, across every camera."],
+ ["Candidate promise (C5)","A promise under consideration but not yet made. C5 is “a name within one second”."],
+ ["Cascade","A plugin listed as coming soon. Its details haven’t been published yet."],
+ ["Contact tracing","Finding who was near a known person, based on face identity and who appeared on the same camera at the same time."],
+ ["Face engine","The face-detection AI model loaded on the graphics card. One engine serves every AI camera; today’s default handles 8 cameras."],
+ ["Frame ID","The unique number stamped on every frame, so every part of PRISM refers to exactly the same picture."],
+ ["Fusion model","A planned model that would link a face, a vehicle and its plate. Not built; whether to build it is an open decision."],
+ ["MB / MiB","Units of memory. A MiB is about 5% bigger than a MB; for a conversation, treat them as the same."],
+ ["npipe","The video-path service: brings AI cameras in, unpacks each frame once, shares it, draws boxes and sends the video on. It contains no AI."],
+ ["Recognition worker","The program that turns a face crop into an embedding and looks for a match. Each copy holds about 480 MiB of GPU memory."],
+ ["Roles","Viewer (look only), Operator (also start and stop cameras), Admin (change settings) and Superadmin (above Admin)."],
+ ["Scaler","Automatic logic that adds resources when a queue grows. PRISM never lets one take memory from cameras."],
+ ["Unknown Faces store","Where faces that weren’t good enough to enrol are kept, one per camera, track and day, and stay searchable for a set period."],
+ ["Promise (P1–P9)","The nine rules PRISM never breaks, such as “live video never goes dark”."],
+ ["PTZ","Pan, tilt, zoom: cameras that can be moved and zoomed remotely."],
+ ["Re-identification","Recognising the same person or object on different cameras. PRISM does this only through faces."],
+ ["Recognition","Working out who a face belongs to, or what a plate says."],
+ ["Retention","How long data is kept before it’s automatically deleted."],
+ ["Root user","Someone with full administrator control of a computer."],
+ ["RTSP / RTMP / WebRTC / HLS","Standard ways of sending video over a network, from cameras or to browsers."],
+ ["Spoof","An attempt to fool face recognition with a photo, video or mask."],
+ ["Track","One object followed across consecutive frames on a single camera, with its own ID."],
+ ["Unverifiable","Liveness’s answer when it can’t judge. It is never treated as a spoof."],
+ ["Vector search","Finding things by visual similarity, using embeddings. Powers “man in a red shirt” search."]
+];
+
+const groupsEl = document.getElementById("groups");
+const tocEl = document.getElementById("toc");
+const input = document.getElementById("q");
+const countEl = document.getElementById("count");
+const toggleBtn = document.getElementById("toggleAll");
+let uid = 0;
+const items = [], terms = [];
+
+function addToc(id, title, n, cls){
+  const li = document.createElement("li");
+  if(cls) li.className = cls;
+  li.innerHTML = `<a href="#${id}" data-g="${id}">${title}<span>${n}</span></a>`;
+  tocEl.appendChild(li);
+}
+
+/* "Rules 3–4" reads as "Design rules 3–4", so readers know where it points */
+function fmtRef(r){
+  const s = r.replace(/\b[Rr]ule(s?)\b/g, "design rule$1");
+  return "Source: " + s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+const startEl = document.getElementById("start");
+addToc("start", "Start here", "");
+
+DATA.forEach(g => {
+  const sec = document.createElement("section");
+  sec.className = "group"; sec.id = g.id;
+  sec.innerHTML = `<h2>${g.title}</h2><p class="sub">${g.sub}</p>`;
+  g.items.forEach(({q,s,d,r,c,a}) => {
+    const id = "i" + (++uid);
+    const body = `<p class="lead">${s}</p>${d||""}${c ? `<div class="check"><strong>Check before promising</strong>${c}</div>` : ""}`;
+    const it = document.createElement("div");
+    it.className = "item";
+    if(a) it.id = a;
+    it.innerHTML = `<button class="q" type="button" aria-expanded="false" aria-controls="${id}">
+        <span class="qt">${q}</span><span class="icon" aria-hidden="true"></span></button>
+      <div class="panel" id="${id}" role="region"><div><div class="a"><div class="body">${body}</div><span class="ref">${fmtRef(r)}</span></div></div></div>`;
+    it.querySelector(".q").addEventListener("click", () => setOpen(it, !it.classList.contains("open")));
+    sec.appendChild(it);
+    const tmp = document.createElement("div"); tmp.innerHTML = body;
+    items.push({el:it, sec, qt:it.querySelector(".qt"), bd:it.querySelector(".body"), q, body,
+      qText:q.toLowerCase(), bText:tmp.textContent.toLowerCase()});
+  });
+  groupsEl.appendChild(sec);
+  addToc(g.id, g.title, g.items.length);
+});
+
+const gsec = document.createElement("section");
+gsec.className = "group"; gsec.id = "glossary";
+gsec.innerHTML = `<h2>Glossary</h2><p class="sub">Plain-language meanings of the words you’ll hear in the workshop.</p><dl class="gloss"></dl>`;
+const dl = gsec.querySelector("dl");
+GLOSSARY.sort((a,b)=>a[0].localeCompare(b[0])).forEach(([t,def]) => {
+  const div = document.createElement("div");
+  div.className = "term";
+  div.innerHTML = `<dt>${t}</dt><dd>${def}</dd>`;
+  dl.appendChild(div);
+  terms.push({el:div, dt:div.querySelector("dt"), dd:div.querySelector("dd"), t, def, text:(t+" "+def).toLowerCase()});
+});
+groupsEl.appendChild(gsec);
+addToc("glossary", "Glossary", GLOSSARY.length, "gl");
+
+function setOpen(it, open){
+  it.classList.toggle("open", open);
+  it.querySelector(".q").setAttribute("aria-expanded", open);
+  syncToggle();
+}
+function visible(){ return items.filter(i => !i.el.hidden); }
+function syncToggle(){
+  const v = visible();
+  toggleBtn.textContent = v.length && v.every(i => i.el.classList.contains("open")) ? "Close all" : "Open all";
+}
+toggleBtn.addEventListener("click", () => {
+  const v = visible(); const open = !v.every(i => i.el.classList.contains("open"));
+  v.forEach(i => setOpen(i.el, open));
+});
+
+function esc(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+function hl(html, term){
+  if(!term) return html;
+  const re = new RegExp("(" + esc(term) + ")", "gi");
+  return html.split(/(<[^>]+>)/).map(p => p.startsWith("<") ? p : p.replace(re, "<mark>$1</mark>")).join("");
+}
+function filter(){
+  const term = input.value.trim(), t = term.toLowerCase();
+  let qShown = 0, tShown = 0;
+  items.forEach(i => {
+    const inQ = i.qText.includes(t), inB = i.bText.includes(t);
+    const hit = !t || inQ || inB;
+    i.el.hidden = !hit;
+    i.qt.innerHTML = hl(i.q, term);
+    i.bd.innerHTML = hl(i.body, term);
+    if(hit) qShown++;
+    if(t && inB && !inQ) setOpen(i.el, true);
+  });
+  terms.forEach(g => {
+    const hit = !t || g.text.includes(t);
+    g.el.hidden = !hit;
+    g.dt.innerHTML = hl(g.t, term); g.dd.innerHTML = hl(g.def, term);
+    if(hit) tShown++;
+  });
+  startEl.hidden = !!t;
+  tocEl.querySelector('[data-g="start"]').parentElement.style.display = t ? "none" : "";
+  document.querySelectorAll("section.group").forEach(s => {
+    const n = s.id === "glossary" ? tShown : items.filter(i => i.sec === s && !i.el.hidden).length;
+    s.hidden = n === 0;
+    const a = tocEl.querySelector(`[data-g="${s.id}"]`);
+    a.parentElement.style.display = n ? "" : "none";
+    a.querySelector("span").textContent = n;
+  });
+  let empty = document.getElementById("empty");
+  if(!qShown && !tShown){
+    if(!empty){ empty = document.createElement("p"); empty.id = "empty"; empty.className = "empty"; groupsEl.appendChild(empty); }
+    empty.textContent = `Nothing mentions “${term}”. Try a broader word, like “camera”, “GPU” or “alert”.`;
+  } else if(empty) empty.remove();
+  countEl.textContent = `${qShown} questions, ${tShown} terms`;
+  syncToggle();
+}
+input.addEventListener("input", filter);
+filter();
+
+const links = [...tocEl.querySelectorAll("a")];
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) links.forEach(l => l.classList.toggle("on", l.dataset.g === e.target.id)); });
+}, {rootMargin:"-30% 0px -60% 0px"});
+document.querySelectorAll("section.start, section.group").forEach(s => io.observe(s));
+
+/* A link to a question (e.g. #never-claim) opens it */
+function openFromHash(hash){
+  const el = hash && document.getElementById(hash.slice(1));
+  if(el && el.classList.contains("item")) setOpen(el, true);
+}
+document.addEventListener("click", e => {
+  const a = e.target.closest('a[href^="#"]');
+  if(a) openFromHash(a.getAttribute("href"));
+});
+openFromHash(location.hash);
+</script>
+</body>
+</html>
