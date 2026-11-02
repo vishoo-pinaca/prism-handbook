@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<title>PRISM workshop pre-read: questions, answers and a glossary | Pinaca Labs</title>
+<title>PRISM glossary: workshop pre-read | Pinaca Labs</title>
 <style>
 :root{
   --bg:#07090C; --surface:#0C1015; --raised:#0B1219; --ink:#F2F3F4; --ink-2:#DFE3E7;
@@ -55,7 +55,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .count{font-size:.88rem;color:var(--faint);min-width:9em;text-align:right;font-variant-numeric:tabular-nums}
 
 /* Layout + table of contents */
-.wrap{max-width:1120px;margin:0 auto;padding:40px 24px 80px;display:grid;grid-template-columns:232px minmax(0,1fr);gap:52px}
+.wrap{max-width:1120px;margin:0 auto;padding:36px 24px 72px}
 nav.toc{position:sticky;top:92px;align-self:start}
 nav.toc p{font-size:.85rem;color:var(--faint);margin:0 0 10px}
 nav.toc ol{list-style:none;margin:0;padding:0;border-left:1px solid var(--line-strong)}
@@ -201,8 +201,8 @@ footer .logo{width:88px;margin-bottom:12px;background:var(--faint)}
 
 <header class="hero">
   <div>
-    <h1>PRISM, explained for everyone in the room</h1>
-    <p class="intro">What PRISM is, how it works and where its limits are, in plain words. Every answer opens with a short version and keeps the detail underneath. A glossary at the end decodes the jargon.</p>
+    <h1>PRISM glossary</h1>
+    <p class="intro">This will help you in the pre-read. Every word you’ll hear in the PRISM workshop, explained in plain language.</p>
   </div>
   <figure>
     <svg viewBox="0 0 560 300" role="img" aria-label="Every camera feeds into the PRISM prism, which splits the video into five outputs: detect, recognise, search, alert and investigate."><defs><filter id="g" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><text x="14" y="94" fill="#878F98" font-size="12" font-family="Arial, sans-serif">Your cameras</text><g><line x1="14" y1="118" x2="22" y2="118" stroke="#A3ABB3" stroke-width="2"/><rect x="22" y="108" width="34" height="20" rx="5" fill="#0C1015" stroke="#A3ABB3" stroke-width="1.6"/><circle cx="45" cy="118" r="5" fill="none" stroke="#B9D8EA" stroke-width="1.6"/></g><g><line x1="14" y1="150" x2="22" y2="150" stroke="#A3ABB3" stroke-width="2"/><rect x="22" y="140" width="34" height="20" rx="5" fill="#0C1015" stroke="#A3ABB3" stroke-width="1.6"/><circle cx="45" cy="150" r="5" fill="none" stroke="#B9D8EA" stroke-width="1.6"/></g><g><line x1="14" y1="182" x2="22" y2="182" stroke="#A3ABB3" stroke-width="2"/><rect x="22" y="172" width="34" height="20" rx="5" fill="#0C1015" stroke="#A3ABB3" stroke-width="1.6"/><circle cx="45" cy="182" r="5" fill="none" stroke="#B9D8EA" stroke-width="1.6"/></g><line class="beam" x1="56" y1="118" x2="198" y2="150" stroke="#F2F3F4" stroke-opacity=".7" stroke-width="2" stroke-linecap="round"/><line class="beam" x1="56" y1="150" x2="198" y2="150" stroke="#F2F3F4" stroke-opacity=".7" stroke-width="2" stroke-linecap="round"/><line class="beam" x1="56" y1="182" x2="198" y2="150" stroke="#F2F3F4" stroke-opacity=".7" stroke-width="2" stroke-linecap="round"/><polygon points="230,40 290,262 170,262" fill="#0E1822" stroke="#B9D8EA" stroke-width="2.4" stroke-linejoin="round" filter="url(#g)"/><polygon points="230,76 266,252 194,252" fill="none" stroke="#4A5864" stroke-width="1"/><line x1="198" y1="150" x2="262" y2="150" stroke="#F2F3F4" stroke-opacity=".4" stroke-width="1.6"/><text x="230" y="236" text-anchor="middle" fill="#B9D8EA" font-size="11" font-weight="700" letter-spacing="3" font-family="Arial, sans-serif">PRISM</text><g class="ray"><line x1="262" y1="150" x2="372" y2="46" stroke="#DCEBF4" stroke-width="2.4" stroke-linecap="round"/><circle cx="372" cy="46" r="4.5" fill="#DCEBF4" filter="url(#g)"/><text x="386" y="43" fill="#F2F3F4" font-size="15" font-weight="700" font-family="Arial, sans-serif">Detect</text><text x="386" y="60" fill="#A3ABB3" font-size="12" font-family="Arial, sans-serif">Spots people, cars and plates</text><line x1="262" y1="150" x2="372" y2="98" stroke="#B9D8EA" stroke-width="2.4" stroke-linecap="round"/><circle cx="372" cy="98" r="4.5" fill="#B9D8EA" filter="url(#g)"/><text x="386" y="95" fill="#F2F3F4" font-size="15" font-weight="700" font-family="Arial, sans-serif">Recognise</text><text x="386" y="112" fill="#A3ABB3" font-size="12" font-family="Arial, sans-serif">Names faces it already knows</text><line x1="262" y1="150" x2="372" y2="150" stroke="#8FC3E3" stroke-width="2.4" stroke-linecap="round"/><circle cx="372" cy="150" r="4.5" fill="#8FC3E3" filter="url(#g)"/><text x="386" y="147" fill="#F2F3F4" font-size="15" font-weight="700" font-family="Arial, sans-serif">Search</text><text x="386" y="164" fill="#A3ABB3" font-size="12" font-family="Arial, sans-serif">Finds anything in past video</text><line x1="262" y1="150" x2="372" y2="202" stroke="#7FB6D8" stroke-width="2.4" stroke-linecap="round"/><circle cx="372" cy="202" r="4.5" fill="#7FB6D8" filter="url(#g)"/><text x="386" y="199" fill="#F2F3F4" font-size="15" font-weight="700" font-family="Arial, sans-serif">Alert</text><text x="386" y="216" fill="#A3ABB3" font-size="12" font-family="Arial, sans-serif">Tells you only what matters</text><line x1="262" y1="150" x2="372" y2="254" stroke="#5E9BC2" stroke-width="2.4" stroke-linecap="round"/><circle cx="372" cy="254" r="4.5" fill="#5E9BC2" filter="url(#g)"/><text x="386" y="251" fill="#F2F3F4" font-size="15" font-weight="700" font-family="Arial, sans-serif">Investigate</text><text x="386" y="268" fill="#A3ABB3" font-size="12" font-family="Arial, sans-serif">Builds a case from footage</text></g></svg>
@@ -214,342 +214,17 @@ footer .logo{width:88px;margin-bottom:12px;background:var(--faint)}
   <div class="controls-inner">
     <label class="search">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-      <input id="q" type="search" placeholder="Search questions and terms, like “alerts”, “cameras” or “GPU”" aria-label="Search questions and glossary">
+      <input id="q" type="search" placeholder="Search terms, like “GPU”, “plugin” or “liveness”" aria-label="Search the glossary">
     </label>
-    <button class="btn" id="toggleAll" type="button">Open all</button>
     <span class="count" id="count" aria-live="polite"></span>
   </div>
 </div>
 
-<main class="wrap">
-  <nav class="toc" aria-label="Topics">
-    <p>Topics</p>
-    <ol id="toc"></ol>
-  </nav>
-  <div id="groups">
-    <section class="start" id="start" aria-labelledby="start-h">
-      <h2 id="start-h">Start here</h2>
-      <p class="sub">Five minutes that make the rest of this page make sense.</p>
+<main class="wrap"><section class="group" id="glossary" aria-label="Glossary"><dl class="gloss"></dl></section></main>
 
-      <div class="pitch">
-        <p class="label">The pitch</p>
-        <p>The Intelligence System which watches every camera, remembers what it saw, and checks every alarm before it reaches a person, without the data ever leaving the premises.</p>
-      </div>
-
-      <h3>How a camera feed moves through PRISM</h3>
-      <figure class="flow" role="group" aria-label="Diagram: the video path carries frames from the camera to the live view with no AI. AI plugins sit beside it, receive frames, and send back only findings.">
-        <div class="lane video">
-          <p class="label">The video path · moves pictures, contains no AI</p>
-          <div class="steps">
-            <div class="step"><b>Camera</b><span>Video comes in over the network</span></div>
-            <div class="arr" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
-            <div class="step"><b>1 · Connect</b><span>Unpacks each frame once, draws the boxes the AI sends back</span></div>
-            <div class="arr" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
-            <div class="step"><b>Live view and recording</b><span>Never goes dark</span></div>
-          </div>
-        </div>
-        <div class="bridge">
-          <span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v11M4 9l4 4 4-4"/></svg>A shared copy of each frame goes to the AI</span>
-          <span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 14V3M4 7l4-4 4 4"/></svg>Only findings come back: boxes and names</span>
-        </div>
-        <div class="lane ai">
-          <p class="label">AI plugins · beside the video, switched on per camera</p>
-          <div class="steps">
-            <div class="step"><b>2 · Detect</b><span>Where is something? Faces, people, vehicles</span></div>
-            <div class="arr" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
-            <div class="step"><b>3 · Recognize</b><span>Who or what is it? Names for known faces, and plate reads</span></div>
-            <div class="arr" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
-            <div class="step"><b>4 · Understand</b><span>Search, alerts and investigation cases</span></div>
-          </div>
-        </div>
-        <ul class="flow-notes">
-          <li><strong>If the AI stops,</strong> operators lose boxes and names for a moment. The picture keeps moving.</li>
-          <li><strong>Cameras without AI switched on</strong> skip the AI entirely: they are relayed and recorded, at no GPU cost.</li>
-        </ul>
-      </figure>
-
-      <h3>Four things that explain most of PRISM</h3>
-      <div class="ideas">
-        <div class="idea"><span class="num">1</span><b>AI sits beside the video, never in it</b><p>The part that moves video contains no AI. A detector can crash, restart or be upgraded and the cameras keep playing.</p></div>
-        <div class="idea"><span class="num">2</span><b>GPU memory is the budget</b><p>Every AI camera and feature shares one graphics card’s memory. That is why AI is switched on per camera, and why each change is checked against capacity before it is applied.</p></div>
-        <div class="idea"><span class="num">3</span><b>People decide who is who</b><p>PRISM names people already in its gallery. For anyone new, it collects and groups their faces, and an operator decides who they are.</p></div>
-        <div class="idea"><span class="num">4</span><b>Decide from the promises</b><p>Nine promises, such as “live video never goes dark”, settle design arguments. A change that would break one goes back to the product owner. <a href="#promises">See all nine</a>.</p></div>
-      </div>
-
-      <p class="tip"><strong>Talking to a customer?</strong> Read <a href="#never-claim">What should we never claim?</a> first. Answers with a highlighted <em>Check before promising</em> note flag a limit to raise with the product team before promising anything.</p>
-    </section>
-  </div>
-</main>
-
-<footer><p><span class="logo" role="img" aria-label="Pinaca"></span>© 2026 Pinaca Labs. PRISM and ASTRA are products of Pinaca Labs. Sources: the “PRISM — Product and System Overview” workshop deck (“Slide”, numbered as in the 33-slide version with section dividers) and the numbered rules in PRISM Design Guidelines (“Design rule”). Where they differ, this page follows the deck, which reflects the October 2026 plugin cutover. Quote figures with the dates they were measured.</p></footer>
+<footer><p><span class="logo" role="img" aria-label="Pinaca"></span>© 2026 Pinaca Labs. PRISM is a product of Pinaca Labs. Terms follow the “PRISM — Product and System Overview” workshop deck.</p></footer>
 
 <script>
-/* Each item: q = question, s = plain-words answer, d = detail (HTML, optional), r = source,
-   c = "check before promising" note (optional), a = anchor id for links (optional) */
-const DATA = [
- { id:"why", title:"Why PRISM", sub:"The problem, the audience and the promises behind every design choice.", items:[
-  {q:"What problem does PRISM actually solve?",
-   s:"Cameras record all day, but almost nobody watches the footage, searching it is slow, recorder alarms cry wolf, and the data is too sensitive to send off-site. PRISM fixes all four on one box at the customer’s site.",
-   d:`<ul><li><strong>Most video is never watched.</strong> Operators see a few tiles; the rest goes unseen.</li>
-   <li><strong>Recordings are hard to search.</strong> Finding one person in yesterday’s footage can take hours.</li>
-   <li><strong>Recorder alarms are noisy.</strong> Every motion fires one, so the real alarms get buried.</li>
-   <li><strong>The data can’t leave.</strong> Faces, plates and camera passwords must stay on the premises.</li></ul>`, r:"Slide 5"},
-  {q:"In one sentence, what is PRISM?",
-   s:"An on-site AI system that watches every camera, recognises known faces, lets you search footage by description, and filters alarms so operators see the ones that matter.",
-   d:`<p>It runs on one GPU server at the customer’s site, or on a smaller 8 GB Jetson Orin NX box at edge sites. Ingest and detection are table stakes; the value customers pay for is recognition, search, alerts and investigation.</p>`, r:"Slide 6"},
-  {q:"Who is PRISM built for?",
-   s:"Four groups: the operators who watch screens, the site owners who pay, the integrators who build on it, and our own engineering team.",
-   d:`<ul><li><strong>Operators</strong> get a live view that never goes dark, instant boxes, one alert inbox and search.</li>
-   <li><strong>Site owners</strong> get one box on site, AI only where it pays, and data kept local.</li>
-   <li><strong>Integrators</strong> get an open API, live events and a machine-readable contract.</li>
-   <li><strong>Our team</strong> gets one codebase for both GPU servers and Jetson, with rehearsed releases.</li></ul>`, r:"Slide 7"},
-  {a:"promises", q:"What are the “promises”, and why do they matter?",
-   s:"Nine rules the product never breaks. Any change that would break one goes back to the product owner first.",
-   d:`<ul><li><strong>What the operator sees (P1–P5):</strong> recognition on the full-resolution face, because accuracy rises with face pixels; a box the instant a face appears; cameras get the GPU before anything else; live video never goes dark; a failed liveness check is never called a spoof.</li>
-   <li><strong>How we behave as a vendor (P6–P7):</strong> our tuned logic is protected but the integration surface stays open; we never change a customer’s recorder.</li>
-   <li><strong>Trust and continuity (P8–P9):</strong> faces, plates and keys never leave the box; and one command center for every detection, working the way operators already work in ASTRA.</li></ul>
-   <p>Four are confirmed product rules: P1, P6, P8 and P9. The other five, P2–P5 and P7, are enforced by the code today and still need a formal sign-off.</p>`, r:"Slide 8"},
-  {q:"What’s ASTRA?",
-   s:"PRISM’s sibling product. The same operators use both, so the two command centers have to look and behave alike.",
-   d:`<p>Camera onboarding, the sidebar and status indicators match across both products, and PRISM’s dashboard follows ASTRA’s style. That consistency is promise P9: one command center for every detection.</p>`, r:"Slides 7, 28"},
-  {q:"What did we give up to build it this way?",
-   s:"Four deliberate trade-offs. Each has a known cost that we design around rather than hide.",
-   d:`<ul><li><strong>One box, one GPU:</strong> data stays on site and cost is predictable, but GPU memory limits how many cameras get AI.</li>
-   <li><strong>AI switched on per camera:</strong> no GPU cost until someone asks for AI, but every change is checked against capacity first, and some are refused.</li>
-   <li><strong>People decide who is who:</strong> no machine-made accusations, but operators have review work.</li>
-   <li><strong>Half-closed product:</strong> our tuned logic is protected, but field debugging is harder and it can’t stop someone with full admin access to the box.</li></ul>`, r:"Slide 9"}
- ]},
- { id:"system", title:"How the system works", sub:"The four stages, and what happens when something fails.", items:[
-  {q:"How does a camera feed move through PRISM?",
-   s:"Four stages: connect the camera, detect what’s in the picture, recognise who or what it is, then make it searchable and alertable.",
-   d:`<ul><li><strong>Connect:</strong> brings the camera in and decodes each frame once.</li>
-   <li><strong>Detect:</strong> “where is something?” Boxes around faces, people and vehicles.</li>
-   <li><strong>Recognize:</strong> “who is it?” Names for known faces, anonymous faces for review, and plate reads.</li>
-   <li><strong>Understand:</strong> search, events, alerts and investigation cases.</li></ul>
-   <p>Only the first stage sits on the path the live video takes. The rest sit beside it.</p>`, r:"Slide 11"},
-  {q:"If the AI crashes, do the cameras go down too?",
-   s:"No. The live video and the AI run separately. If the AI stops, operators lose the boxes and names for a moment, but the picture keeps playing.",
-   d:`<p>The part that moves video (npipe) contains no AI at all. Every detector is a separate plugin that reads a shared copy of each frame and sends back only what it found. A plugin can crash, restart or be upgraded without touching a camera. Putting “just one small model” back inside the video path is rejected on principle: the next restart would take the cameras down with it.</p>`, r:"Slides 14, 16; rule 2"},
-  {q:"What does “decode once, share the frame” mean?",
-   s:"Each video frame is unpacked once, and every AI feature looks at that same copy. Adding a new feature costs almost nothing extra.",
-   d:`<p>Each frame gets a unique ID that follows it everywhere, so when a detector says “there’s a face here in frame 1042”, the recognition step cuts the face out of exactly that frame. That ID matching is treated as sacred: if it drifted, the system would crop the wrong picture.</p>`, r:"Slide 16; rules 1–2"},
-  {q:"Why does PRISM detect on a small image but recognise on a big one?",
-   s:"Finding a face is fast on a small image; naming it accurately needs every pixel. So PRISM finds it small and cuts it out at full resolution.",
-   d:`<p>Detection sends only coordinates, not pictures. Recognition then crops from the full-resolution frame. More face pixels means better accuracy (promise P1). Because full-resolution frames are only kept for a few seconds, this step is kept short and fast.</p>`, r:"Rules 3–4"},
-  {q:"What frame rate does PRISM need from a camera?",
-   s:"At least 10 frames per second. Faster cameras are thinned automatically, for example from 25 to 12.5.",
-   d:`<p>Below 10 fps, live video looks choppy and there aren’t enough frames to pick a good face. A built-in limiter measures each camera’s real rate and thins it by itself, so nobody needs to tune this per camera.</p>`, r:"Rules 5–6"},
-  {q:"How many software services run on one box?",
-   s:"About two dozen, each with one job, so a fault in one doesn’t spread to the others.",
-   d:`<p>Plus shared infrastructure (database, message queue, gateway, web dashboard). The forensics option adds six more.</p>`, r:"Slide 13"},
-  {q:"Can PRISM link a face to a vehicle and its plate?",
-   s:"Partly. A plate is attached to the vehicle it was read on, but nothing links a face to a vehicle today.",
-   d:`<p>The fusion model that would join face, vehicle and plate is the one piece on the architecture diagram that isn’t built. Whether to build it is an open product decision.</p>`, r:"Slide 12"}
- ]},
- { id:"reliability", title:"Reliability and data safety", sub:"What happens when a camera, a service or the disk misbehaves.", items:[
-  {q:"Will an operator ever see a black screen?",
-   s:"The system is built to avoid it. If a camera stalls, a holding image fills the gap until video returns, and one broken camera can’t affect the others.",
-   d:`<p>To an operator, a black tile means “the system is down”, even when only the AI has paused. Each camera has its own isolated pipeline. One honest limit: a camera beyond the box’s hardware video-encoder limit shows the holding image even though detection still works.</p>`, r:"Slides 19, 24; rule 24"},
-  {q:"Does PRISM fix itself, or does someone need to restart things?",
-   s:"It fixes itself. Every service watches its own health and restarts after short-lived problems, with nobody touching it.",
-   d:`<p>Restarts back off gradually so a persistent fault doesn’t cause a restart storm. Importantly, an empty corridor at night is not treated as a fault: a quiet scene is not a broken scene. Only an almost total drop in activity can trigger a restart; a smaller drop raises an alert and nothing else.</p>`, r:"Rule 25"},
-  {q:"Why can object boxes take a few minutes to appear after a fresh install?",
-   s:"On its first start, the object detector prepares its AI model for that machine’s graphics card, which can take minutes. It is busy, not broken.",
-   d:`<p>The service reports itself healthy while it prepares, so nobody should restart it. The prepared model only works on the graphics card it was built on, which is why it can’t simply be copied from another box.</p>`, r:"Slide 25; rules 7, 19"},
-  {q:"If the system crashes, do we lose events or alerts?",
-   s:"No. Events are queued in a way that survives a crash, and anything not yet processed is picked up again on restart.",
-   d:`<p>Alerts are always recorded before they’re announced, so nothing appears on screen that isn’t stored. A restart also never re-fires old alerts from history.</p>`, r:"Rules 16, 27"},
-  {q:"Why is live video so low-latency?",
-   s:"PRISM passes the camera’s video straight through without re-compressing it, which saves 2–3 seconds of delay and about 10× the processing.",
-   d:`<p>The trade-off: the final streaming step can’t draw overlays or watermarks itself, so boxes are drawn earlier in the pipeline.</p>`, r:"Rule 26"},
-  {q:"What happens when the disk fills up?",
-   s:"At 85% full, the oldest footage is removed, and the operator is told. Nothing is deleted silently.",
-   d:`<p>Only one service is allowed to delete anything, so there’s one retention policy, not competing ones. A file still being written is never deleted. Footage where nothing moved can be expired earlier than footage with activity.</p>`, r:"Slide 28; rule 29"},
-  {q:"How long is each kind of data kept?",
-   s:"Longer for more valuable data: alerts 72 hours, audit logs 7 days, event images about 30 days, recordings by the site’s retention policy.",
-   d:`<ul><li>Rejected faces: 1 hour</li><li>Face crops and saved frames: hours</li><li>Alerts: 72 hours</li><li>Audit logs: 7 days</li><li>Unknown faces: per-camera retention</li><li>Event images: about 30 days</li><li>Recordings: by retention policy and disk pressure</li><li>Investigation cases: until the case is deleted</li></ul>`, r:"Rule 29"},
-  {q:"Does recorded playback line up with what actually happened?",
-   s:"Yes. The timeline is measured from the real recordings, so the video and the event marker show the same moment.",
-   d:`<p>Two past bugs shaped this: a growing file once shifted playback so the timeline showed a person while the video showed an empty room, and assumed segment lengths drifted the timeline by about 50 minutes by evening. Both are now designed out. A day that’s still recording keeps updating even through a camera gap.</p>`, r:"Rule 30"}
- ]},
- { id:"cameras", title:"Cameras and AI on demand", sub:"Onboarding, plugins and respect for equipment we don’t own.", items:[
-  {q:"Does every camera use AI?",
-   s:"No. Every camera is recorded, but AI is switched on only for the cameras where it’s wanted. Cameras without AI cost no GPU.",
-   d:`<p>Since 20 October 2026, a camera starts as a plain recording camera. Switching on the first AI plugin starts the AI for that camera; switching off the last stops it. API callers that send no plugin choice keep AI, as before.</p>`, r:"Slide 17"},
-  {q:"Which AI features can be switched on?",
-   s:"Three plugins today: Faces, Objects and Embeddings. Plates and Cascades are listed as coming soon.",
-   d:`<ul><li><strong>Faces:</strong> a box on every face the moment it appears, and a name for people already in the gallery.</li>
-   <li><strong>Objects:</strong> finds people and vehicles wherever something is moving, and follows each one within that camera.</li>
-   <li><strong>Embeddings:</strong> makes the people and vehicles PRISM follows searchable, by words (“man in a red shirt”) or by example picture.</li></ul>
-   <p>One rule for now: while every AI camera gets face detection, Faces must stay on whenever another plugin is on.</p>`, r:"Slide 17"},
-  {q:"What if I switch on AI and the box doesn’t have room?",
-   s:"PRISM checks capacity before applying the change, and refuses it if it won’t fit, instead of failing quietly later.",
-   d:`<p>It checks GPU memory, the face engine’s camera limit, video encoder sessions, frame memory and licence seats. The hard limits refuse the change outright; GPU memory is a soft limit that can be overridden deliberately.</p>`, r:"Slide 17"},
-  {q:"How are cameras added?",
-   s:"PRISM scans the site and finds cameras itself. Cameras that can’t be reached directly can push video to it, and even a laptop webcam can join.",
-   d:`<ul><li><strong>Network Setup</strong> finds cameras by ONVIF and falls back to known RTSP addresses if ONVIF is off.</li>
-   <li><strong>RTMP push</strong> for cameras that send video out rather than wait to be called.</li>
-   <li><strong>Browser webcams</strong> over WebRTC; they stop when the tab closes.</li></ul>
-   <p>A camera keeps its identity even if its IP address changes, and a camera that disappears from the network is marked “missing since”, so an unplugged camera is easy to find.</p>`, r:"Slide 29; rule 31"},
-  {q:"Could PRISM lock my cameras out with wrong passwords?",
-   s:"It’s built not to. It tries the password that worked before, at most three new ones, and then stops and tells the operator.",
-   d:`<p>If a known password is refused, PRISM reports the camera as “temporarily locked” rather than “wrong password” and doesn’t keep trying, because more attempts deepen the lockout. The operator can still choose “register anyway”. The camera’s record keeps only a label saying which known credential worked, not the password, and camera addresses are saved without passwords in them.</p>`, r:"Slides 21, 29; rule 31"},
-  {q:"Will PRISM change my NVR’s settings?",
-   s:"Never. It reads the recorder’s settings and tells you which menu to change, but never changes anything itself.",
-   d:`<p>AI-capable NVRs can feed their alarms into PRISM, read-only, with every message logged. Since recorders lock an account after five failed logins, PRISM waits 15 minutes after a refusal.</p>`, r:"Slides 21, 28"},
-  {q:"Is it safe to control PTZ cameras from PRISM?",
-   s:"Yes. Every continuous pan or tilt move carries a built-in timeout, so the camera stops by itself if the stop command never arrives.",
-   d:`<p>The timeout is 10 seconds by default. It covers the cases where an operator’s “stop” gets lost: a dropped connection or a closed browser tab. Some cameras would otherwise keep panning until someone stopped them by hand. PRISM also checks whether a camera actually supports PTZ before sending commands.</p>`, r:"Slide 21; rule 32"}
- ]},
- { id:"identity", title:"Recognition and identity", sub:"Faces, liveness, plates, and who has the final say.", items:[
-  {q:"How does PRISM recognise a face?",
-   s:"It draws a box the instant a face appears, cuts that face out of the full-quality frame, and compares it against the people already in its gallery. On a match, the name appears automatically.",
-   d:`<p>The comparison uses a numeric “fingerprint” of the face (an embedding). On a match, that person keeps the same ID on every camera all day, which is what makes appearance history and contact tracing possible. This automatic naming only applies to people already known; for anyone new, see the next question.</p>`, r:"Slides 25, 26; rule 8"},
-  {q:"Does the system decide who an unknown person is?",
-   s:"No. The system collects and groups unknown faces; a human decides who they are.",
-   d:`<p>Every unknown face is enrolled into an anonymous watchlist after a quality check. Similar faces are grouped and shown to an operator, who can name, merge or dismiss them. Lower-quality faces still go to an Unknown Faces store and remain searchable for a set period. No face is lost, and a wrong name on screen costs more trust than a missing one.</p>`, r:"Slide 20; rule 10"},
-  {q:"Can PRISM follow a person or vehicle across cameras?",
-   s:"People, yes, through face recognition. Vehicles and people without a visible face are tracked only within a single camera.",
-   d:`<p>There is no “looks the same” re-identification for objects. Vision search can find “a man in a red shirt” on every camera, but it never claims that the man on camera 3 is the same man on camera 1. Contact tracing is built on face identity and on who was seen on the same camera at the same time.</p>`, r:"Slide 20; rule 8"},
-  {q:"Does recognition get better over time?",
-   s:"Yes, by itself. When PRISM sees a known person in a better picture, it swaps that in for a weaker one, keeping up to 10 per person.",
-   d:`<p>Near-identical pictures are skipped, so looping or static footage can’t fill a person’s gallery with the same frame.</p>`, r:"Slide 20; rule 9"},
-  {q:"What is liveness, and could it wrongly accuse someone?",
-   s:"Liveness checks whether a face is a real person or a photo or screen. If it can’t tell, it says “unverifiable”, never “spoof”.",
-   d:`<p>A missing model, a face smaller than 100 pixels, an infrared (night-vision) frame or a busy system all give “unverifiable”. At normal CCTV distance most faces are unverifiable, and that’s expected. Liveness is optional per camera and uses no GPU memory.</p>`, r:"Slide 20; rule 11"},
-  {a:"plates", q:"Does PRISM read number plates?",
-   s:"Yes. PRISM reads each plate once per vehicle passage, with rules tuned for Indian plates. As a switch-on plugin, Plates is listed as coming soon.",
-   d:`<p>While a vehicle passes, PRISM collects several sharp shots of its plate and combines them into one read per vehicle, rather than one per frame. A read is committed only when it rests on at least 3 frames and reaches a confidence score of 0.72. The plate rules (the “grammar”) are tuned for Indian plates, and the region setting matters: the wrong region gives confident wrong plates rather than no plate. Plate reading is not yet available on the Jetson edge box.</p>`,
-   c:"The deck shows plate reading as a working service, but lists the Plates plugin as coming soon. Confirm with the product team what a customer can switch on today before offering it.", r:"Slides 17, 26, 30; rule 12"},
-  {q:"How quickly does a name appear on screen?",
-   s:"The box appears straight away; the name follows within a second in the worst case measured so far.",
-   d:`<p>The worst case from face to name was 945 ms (just under a second), measured on 14 July 2026, before the October plugin change. “A name within one second” is a candidate promise (C5), not yet formally made.</p>
-   <p>You may also hear “2.7 seconds down to 17 ms”. That was one internal step inside recognition getting faster, not the time a person waits on screen.</p>`, r:"Slides 18, 32; rule 19"}
- ]},
- { id:"search", title:"Search, alerts and investigations", sub:"Getting value out of footage nobody watched.", items:[
-  {q:"Can I search footage by describing what I’m looking for?",
-   s:"Yes. Type something like “man in a red shirt”, or point at an example picture, and PRISM finds matches across cameras.",
-   d:`<p>The best 3 frames of each tracked person or vehicle are indexed, which keeps search fast without losing quality. Queries can also take the form “person near car”. Scores only make sense relative to each other, so the screen never shows them as percentages: 0.18 is a strong match in this scale, and “18%” would look like a failure.</p>`, r:"Slide 27; rules 13–14"},
-  {q:"How are PRISM alerts different from my recorder’s alarms?",
-   s:"A recorder alarms on every motion. PRISM can check each alarm first, for example looking for a known face, before bothering an operator.",
-   d:`<p>Alert workflows run 1 to 8 checks, such as a face check, a scene check or a search. Every kind of alert lands in one inbox with one acknowledge flow, and alerts are kept 72 hours. If a check can’t run because a service is warming up, that time window is retried, never skipped.</p>`, r:"Slide 27; rule 16"},
-  {q:"What are Activity Layers?",
-   s:"A way to teach the system by example: mark some moments as normal and others as suspicious, and PRISM flags new activity that looks like the suspicious ones.",
-   d:`<p>A flag has to clearly beat the closest “normal” example, which reduces false alarms. Cooldowns stop looping footage from triggering the same alert repeatedly. Example pictures are copied into the layer so they don’t expire with the original footage.</p>`, r:"Slide 27; rule 15"},
-  {q:"Can I investigate footage recorded elsewhere?",
-   s:"Yes. Forensics lets an investigator upload footage and search it as if PRISM had watched it live, organised as a case.",
-   d:`<p>One job runs at a time, and everything it produces is kept until the case is deleted, never aged out mid-investigation. By default it shares the GPU with live cameras. A faster mode that pauses live video exists but ships switched off; if used, a safety switch guarantees live video comes back even if the investigation job crashes.</p>`, r:"Slide 30; rule 17"}
- ]},
- { id:"limits", title:"Capacity and limits", sub:"The numbers that bound what we can promise.", items:[
-  {q:"How many cameras can one box handle?",
-   s:"Every camera can be recorded. How many get AI depends on GPU memory; today’s face engine serves 8 AI cameras per box by default.",
-   d:`<p>Think of the graphics card’s memory as a fixed budget that every AI camera and feature draws from:</p>
-   <ul><li>Face engine: <strong>8 cameras</strong> at today’s default. More needs a larger engine, built on the target machine’s GPU.</li>
-   <li>Each AI camera lane: roughly <strong>150 MB</strong> (an estimate, not a measurement).</li>
-   <li>Each recognition worker: about <strong>480 MiB</strong>, roughly half a gigabyte, or the cost of about three AI camera lanes.</li>
-   <li>The box keeps at least <strong>300 MiB</strong> free, or it refuses new AI cameras.</li>
-   <li><strong>9 cameras</strong> ran on the 8 GB development laptop, measured before the plugin cutover. Treat it as a floor, not today’s figure.</li></ul>
-   <p>A fresh capacity measurement since the October plugin change hasn’t been done yet.</p>`, r:"Slides 18, 32"},
-  {q:"What happens to a ninth AI camera?",
-   s:"It keeps its video but gets no boxes, and today it raises no error. That silent behaviour is a known gap awaiting a product decision.",
-   d:"", r:"Slide 25"},
-  {q:"Why not run more copies of the recognition software to go faster?",
-   s:"Each extra copy (a recognition worker) uses GPU memory that cameras need. So PRISM makes one copy do more work at once instead. Cameras always come first.",
-   d:`<p>One worker costs roughly the memory of three AI camera lanes. Speeding up the single worker cut one recognition step from 2.7 seconds to 17 ms with no extra memory.</p>
-   <p>The trap this avoids: an automatic scaler (logic that adds resources when a queue grows) that took memory from cameras would see the queue shrink and think it had succeeded, while those cameras quietly lost their boxes.</p>
-   <p>This is about copies of software sharing one graphics card. More AI cameras need more GPU memory, which means a larger GPU.</p>`, r:"Slides 18, 32; rule 19"},
-  {q:"How does PRISM avoid wasting the GPU on empty scenes?",
-   s:"A cheap motion check runs first. Heavy object detection only runs where something is actually moving.",
-   d:`<p>The same motion data later lets storage expire “nothing happened” footage sooner.</p>`, r:"Slide 18; rule 18"},
-  {q:"Is there a smaller box for edge sites?",
-   s:"Yes: a Jetson Orin NX, a small 8 GB box for small or remote sites. Today it carries four 4-megapixel cameras at 10 frames per second with faces only, or two with search switched on.",
-   d:`<p>It runs the same product and code as the server, with a few device-specific settings. On a box this size, memory, not heat, is the limiting factor. Plate reading isn’t available on it yet, and 15 frames per second hasn’t been shown.</p>`,
-   c:"The deck gives no measurement date for the Jetson figures. Confirm the date with the product team before quoting them.", r:"Slides 6, 30, 32; rule 36"},
-  {q:"Why are faces cut out of the picture immediately?",
-   s:"Full-resolution frames are only kept for about four seconds, so anything that needs a sharp picture has to grab it straight away.",
-   d:"", r:"Slides 24, 32; rule 3"}
- ]},
- { id:"trust", title:"Privacy, security and access", sub:"What stays on the box, who can do what, and what integrators can build on.", items:[
-  {q:"Does any customer data leave the site?",
-   s:"No. Faces, plates, camera passwords and licence keys stay on the box.",
-   d:`<p>Inside the box PRISM is careful too: a camera’s record keeps only a label saying which known credential worked, not the password, and camera addresses are saved without passwords embedded in them.</p>`, r:"Slides 8, 21; rule 31"},
-  {q:"Who can do what? Are there user roles?",
-   s:"Four roles: Viewer, Operator, Admin and Superadmin. Viewers can only look; Operators can also start and stop cameras; Admins can change settings; Superadmin sits above Admin.",
-   d:`<p>An API key (how other software logs in) acts as an Admin, never a Superadmin. Every change made through the system is recorded automatically with its before and after state.</p>`, r:"Rule 33"},
-  {q:"Is there an audit trail?",
-   s:"Yes. Every change made through the system is logged automatically, showing what it was before and after.",
-   d:`<p>Audit logs are currently kept for 7 days.</p>`,
-   c:"Seven days is short for many government and defence buyers. If a customer needs longer audit retention, raise it with the product team rather than promising it.", r:"Rules 29, 33"},
-  {q:"Is PRISM open or closed? Can integrators build on it?",
-   s:"Half and half, on purpose. Everything an integrator builds on is open; the tuned logic that makes PRISM better than competitors is compiled and protected.",
-   d:`<ul><li><strong>Open:</strong> the API, data models, settings, metrics and the whole dashboard.</li>
-   <li><strong>Protected:</strong> the matcher, search planner, plate grammar and quality gates, as compiled code.</li>
-   <li><strong>Sealed:</strong> AI model weights, only ever opened in memory.</li></ul>
-   <p>A build check fails if anything is accidentally left open or accidentally closed. The API is designed to be consistent and changes slowly.</p>`, r:"Slide 22; rules 33–34"},
-  {q:"Can someone copy PRISM from a licensed box?",
-   s:"It’s hard: they’d need to reverse-engineer compiled code and defeat hardware-bound licence keys. But it won’t stop someone with full admin (root) access to the machine.",
-   d:`<p>Nobody should tell a customer otherwise.</p>`, r:"Slide 22; rule 34"},
-  {q:"How is access to the box secured?",
-   s:"Everyone reaches the box through one secure front door, the gateway, over encrypted connections. Internal services, such as the ones that find and start cameras, can’t be reached from the browser directly.",
-   d:`<p>Separately, the licence is tied to the box’s hardware. That protects PRISM against being copied; it doesn’t control who logs in. One gap: the licence library has no documentation of its own yet.</p>`, r:"Slides 28, 29; rule 31"}
- ]},
- { id:"talking", title:"Talking about PRISM", sub:"For sales, marketing and defence conversations.", items:[
-  {q:"What’s the one-line pitch?",
-   s:"One box on site that watches every camera, remembers what it saw, and checks every alarm before it reaches a person, without the data ever leaving the premises.",
-   d:"", r:"Slide 5"},
-  {a:"never-claim", q:"What should we never claim?",
-   s:"Anything the product doesn’t do, or hasn’t been measured to do. These are the claims most likely to come up:",
-   d:`<ul><li><strong>Tracking across cameras:</strong> that PRISM follows vehicles, or people whose face isn’t visible, from camera to camera. Only faces carry identity across cameras, and nothing yet links a person to a vehicle.</li>
-   <li><strong>Percentages:</strong> that search results are a “percentage match”.</li>
-   <li><strong>Speed:</strong> that it guarantees a name within one second. 945 ms worst case was measured, but it isn’t a formal promise yet.</li>
-   <li><strong>Anti-spoofing:</strong> that liveness catches photos or screens at normal CCTV distance. At that distance most faces come back “unverifiable”.</li>
-   <li><strong>Accuracy:</strong> any face-recognition accuracy figure. None has been published.</li>
-   <li><strong>Plates:</strong> that Plates can be switched on as a plugin today (it is listed as coming soon), that plate reading runs on the Jetson box, or that it is tuned for anything other than Indian plates.</li>
-   <li><strong>Jetson:</strong> more than four 4 MP cameras at 10 fps with faces (two with search), 15 fps, or plate reading on the Jetson edge box.</li>
-   <li><strong>Copy protection:</strong> that it stops someone with full admin (root) access to a licensed box.</li>
-   <li><strong>Unconfirmed defence asks:</strong> a fully air-gapped install, or audit logs kept longer than 7 days.</li></ul>
-   <p>Always quote numbers with the date they were measured.</p>`, r:"Slides 17, 20, 26, 27, 30, 32; rules 11, 29, 36"},
-  {q:"Why does “people decide who is who” matter to a customer?",
-   s:"Because the system never decides on its own who a new person is. It names people already in its gallery; every new identity is confirmed by an operator.",
-   d:`<p>That protects innocent people from a machine-made identification, reduces liability, and keeps a person accountable for who goes into the system. A wrong name on screen costs more trust than a missing one. Liveness follows the same principle: when unsure, it says so rather than accusing a real person of spoofing.</p>`, r:"Slide 20; rules 10–11"},
-  {q:"What matters most for defence and government sites?",
-   s:"Data sovereignty and control: everything runs on the customer’s premises, no data leaves the site, and a human confirms every new identity.",
-   d:`<ul><li>No data leaves the site; a camera’s record keeps a label for its working credential, not the password.</li>
-   <li>Role-based access and an automatic audit trail (logs kept 7 days today).</li>
-   <li>Never modifies existing recorders; takes their alarms read-only.</li>
-   <li>Hardware-bound licensing; AI model weights never stored as plain files.</li>
-   <li>Live video keeps running even if the AI fails.</li></ul>`, r:"Slides 21, 22, 30; rules 29, 31–34, 36"},
-  {q:"What’s different from a normal NVR or VMS?",
-   s:"An NVR records and alarms on every motion. PRISM understands what it sees: it names known faces, searches by description and filters alarms before a human sees them.",
-   d:`<p>PRISM records every camera itself. It can also take alarms from AI-capable recorders a site already has, read-only, and it never changes their configuration.</p>`, r:"Slides 5, 13, 27, 28"}
- ]},
- { id:"next", title:"Open decisions and next steps", sub:"What’s still undecided, and where to read more.", items:[
-  {a:"open-decisions", q:"What’s still undecided or unfinished?",
-   s:"A handful of product decisions and missing pieces, all known and tracked.",
-   d:`<ul><li>The silent ninth camera, and cameras past the encoder limit showing a holding image.</li>
-   <li>Whether to build the face–vehicle–plate fusion model.</li>
-   <li>Formal sign-off on promises P2–P5 and P7.</li>
-   <li>Whether to commit to “a name within one second” (C5).</li>
-   <li>A fresh capacity measurement since the plugin cutover.</li>
-   <li>The Plates and Cascades plugins.</li>
-   <li>The Jetson edge box: plate reading, and showing 15 frames per second.</li>
-   <li>Documentation for the licence library.</li></ul>`, r:"Slides 12, 19, 25, 32; rule 36"},
-  {q:"How are releases tested before reaching a customer?",
-   s:"Every release is rehearsed exactly as a customer would install it.",
-   d:`<p>The customer package keeps its own copy of the configuration, and a parity check stops it drifting from the tested version. That check exists because a fix once reached development but not the customer package, and shipped broken.</p>`, r:"Slide 30; rule 35"},
-  {q:"Where can I go deeper?",
-   s:"The engineering deck for detail, and a few documents in the repository.",
-   d:`<ul><li><strong>PRISM: High-Level Design</strong>, every service in depth.</li>
-   <li><strong>product-principles.md</strong>, the promises and the code that enforces each.</li>
-   <li><strong>guidelines/GUIDELINES.md</strong>, the 36 design rules in plain words.</li>
-   <li><strong>ontology.md</strong>, what PRISM stores and how it connects.</li>
-   <li><strong>prism-core/MODELS_REFERENCE.md</strong>, the data model and API contract.</li></ul>`, r:"Slide 33"},
-  {q:"If I remember only one thing, what should it be?",
-   s:"Decide from the promises. Keep AI beside the video, never in it. Let people, not the system, decide who is who.",
-   d:"", r:"Slide 33"}
- ]}
-];
-
 const GLOSSARY = [
  ["Compatibility lane (JPEG ring)","A side path shown dashed on the architecture slide: still pictures kept for forensics only, outside the live video path."],
  ["Embedder","The service that picks the best 3 frames of each tracked person or vehicle and turns them into vectors for search."],
@@ -638,57 +313,10 @@ const GLOSSARY = [
  ["Vector search","Finding things by visual similarity, using embeddings. Powers “man in a red shirt” search."]
 ];
 
-const groupsEl = document.getElementById("groups");
-const tocEl = document.getElementById("toc");
+const dl = document.querySelector("#glossary dl");
 const input = document.getElementById("q");
 const countEl = document.getElementById("count");
-const toggleBtn = document.getElementById("toggleAll");
-let uid = 0;
-const items = [], terms = [];
-
-function addToc(id, title, n, cls){
-  const li = document.createElement("li");
-  if(cls) li.className = cls;
-  li.innerHTML = `<a href="#${id}" data-g="${id}">${title}<span>${n}</span></a>`;
-  tocEl.appendChild(li);
-}
-
-/* "Rules 3–4" reads as "Design rules 3–4", so readers know where it points */
-function fmtRef(r){
-  const s = r.replace(/\b[Rr]ule(s?)\b/g, "design rule$1");
-  return "Source: " + s.charAt(0).toUpperCase() + s.slice(1);
-}
-
-const startEl = document.getElementById("start");
-addToc("start", "Start here", "");
-
-DATA.forEach(g => {
-  const sec = document.createElement("section");
-  sec.className = "group"; sec.id = g.id;
-  sec.innerHTML = `<h2>${g.title}</h2><p class="sub">${g.sub}</p>`;
-  g.items.forEach(({q,s,d,r,c,a}) => {
-    const id = "i" + (++uid);
-    const body = `<p class="lead">${s}</p>${d||""}${c ? `<div class="check"><strong>Check before promising</strong>${c}</div>` : ""}`;
-    const it = document.createElement("div");
-    it.className = "item";
-    if(a) it.id = a;
-    it.innerHTML = `<button class="q" type="button" aria-expanded="false" aria-controls="${id}">
-        <span class="qt">${q}</span><span class="icon" aria-hidden="true"></span></button>
-      <div class="panel" id="${id}" role="region"><div><div class="a"><div class="body">${body}</div><span class="ref">${fmtRef(r)}</span></div></div></div>`;
-    it.querySelector(".q").addEventListener("click", () => setOpen(it, !it.classList.contains("open")));
-    sec.appendChild(it);
-    const tmp = document.createElement("div"); tmp.innerHTML = body;
-    items.push({el:it, sec, qt:it.querySelector(".qt"), bd:it.querySelector(".body"), q, body,
-      qText:q.toLowerCase(), bText:tmp.textContent.toLowerCase()});
-  });
-  groupsEl.appendChild(sec);
-  addToc(g.id, g.title, g.items.length);
-});
-
-const gsec = document.createElement("section");
-gsec.className = "group"; gsec.id = "glossary";
-gsec.innerHTML = `<h2>Glossary</h2><p class="sub">Plain-language meanings of the words you’ll hear in the workshop.</p><dl class="gloss"></dl>`;
-const dl = gsec.querySelector("dl");
+const terms = [];
 GLOSSARY.sort((a,b)=>a[0].localeCompare(b[0])).forEach(([t,def]) => {
   const div = document.createElement("div");
   div.className = "term";
@@ -696,24 +324,6 @@ GLOSSARY.sort((a,b)=>a[0].localeCompare(b[0])).forEach(([t,def]) => {
   dl.appendChild(div);
   terms.push({el:div, dt:div.querySelector("dt"), dd:div.querySelector("dd"), t, def, text:(t+" "+def).toLowerCase()});
 });
-groupsEl.appendChild(gsec);
-addToc("glossary", "Glossary", GLOSSARY.length, "gl");
-
-function setOpen(it, open){
-  it.classList.toggle("open", open);
-  it.querySelector(".q").setAttribute("aria-expanded", open);
-  syncToggle();
-}
-function visible(){ return items.filter(i => !i.el.hidden); }
-function syncToggle(){
-  const v = visible();
-  toggleBtn.textContent = v.length && v.every(i => i.el.classList.contains("open")) ? "Close all" : "Open all";
-}
-toggleBtn.addEventListener("click", () => {
-  const v = visible(); const open = !v.every(i => i.el.classList.contains("open"));
-  v.forEach(i => setOpen(i.el, open));
-});
-
 function esc(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
 function hl(html, term){
   if(!term) return html;
@@ -722,58 +332,22 @@ function hl(html, term){
 }
 function filter(){
   const term = input.value.trim(), t = term.toLowerCase();
-  let qShown = 0, tShown = 0;
-  items.forEach(i => {
-    const inQ = i.qText.includes(t), inB = i.bText.includes(t);
-    const hit = !t || inQ || inB;
-    i.el.hidden = !hit;
-    i.qt.innerHTML = hl(i.q, term);
-    i.bd.innerHTML = hl(i.body, term);
-    if(hit) qShown++;
-    if(t && inB && !inQ) setOpen(i.el, true);
-  });
+  let shown = 0;
   terms.forEach(g => {
     const hit = !t || g.text.includes(t);
     g.el.hidden = !hit;
     g.dt.innerHTML = hl(g.t, term); g.dd.innerHTML = hl(g.def, term);
-    if(hit) tShown++;
-  });
-  startEl.hidden = !!t;
-  tocEl.querySelector('[data-g="start"]').parentElement.style.display = t ? "none" : "";
-  document.querySelectorAll("section.group").forEach(s => {
-    const n = s.id === "glossary" ? tShown : items.filter(i => i.sec === s && !i.el.hidden).length;
-    s.hidden = n === 0;
-    const a = tocEl.querySelector(`[data-g="${s.id}"]`);
-    a.parentElement.style.display = n ? "" : "none";
-    a.querySelector("span").textContent = n;
+    if(hit) shown++;
   });
   let empty = document.getElementById("empty");
-  if(!qShown && !tShown){
-    if(!empty){ empty = document.createElement("p"); empty.id = "empty"; empty.className = "empty"; groupsEl.appendChild(empty); }
-    empty.textContent = `Nothing mentions “${term}”. Try a broader word, like “camera”, “GPU” or “alert”.`;
+  if(!shown){
+    if(!empty){ empty = document.createElement("p"); empty.id = "empty"; empty.className = "empty"; dl.after(empty); }
+    empty.textContent = `No term mentions “${term}”. Try a broader word, like “camera”, “GPU” or “alert”.`;
   } else if(empty) empty.remove();
-  countEl.textContent = `${qShown} questions, ${tShown} terms`;
-  syncToggle();
+  countEl.textContent = `${shown} terms`;
 }
 input.addEventListener("input", filter);
 filter();
-
-const links = [...tocEl.querySelectorAll("a")];
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) links.forEach(l => l.classList.toggle("on", l.dataset.g === e.target.id)); });
-}, {rootMargin:"-30% 0px -60% 0px"});
-document.querySelectorAll("section.start, section.group").forEach(s => io.observe(s));
-
-/* A link to a question (e.g. #never-claim) opens it */
-function openFromHash(hash){
-  const el = hash && document.getElementById(hash.slice(1));
-  if(el && el.classList.contains("item")) setOpen(el, true);
-}
-document.addEventListener("click", e => {
-  const a = e.target.closest('a[href^="#"]');
-  if(a) openFromHash(a.getAttribute("href"));
-});
-openFromHash(location.hash);
 </script>
 </body>
 </html>
