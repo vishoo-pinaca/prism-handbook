@@ -141,6 +141,7 @@ section.start[hidden]{display:none}
 .term dt{font-size:1rem;color:var(--accent);margin:0 0 4px}
 .term dd{margin:0;font-size:.97rem;line-height:1.55;color:var(--ink-2)}
 .term dd em{color:var(--muted)}
+.tag{display:inline-block;margin-left:6px;font-size:.72rem;line-height:1.5;color:var(--bg);background:var(--accent);padding:0 7px;border-radius:2px;vertical-align:2px}
 
 mark{background:var(--mark);color:inherit;border-radius:1px;padding:0 1px}
 .empty{font-size:1.05rem;color:var(--muted);padding:24px 0}
@@ -214,7 +215,7 @@ footer .logo{width:88px;margin-bottom:12px;background:var(--faint)}
   <div class="controls-inner">
     <label class="search">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-      <input id="q" type="search" placeholder="Search terms, like “GPU”, “plugin” or “liveness”" aria-label="Search the glossary">
+      <input id="q" type="search" placeholder="Search terms, like “GPU”, “database” or “liveness”" aria-label="Search the glossary">
     </label>
     <span class="count" id="count" aria-live="polite"></span>
   </div>
@@ -222,107 +223,468 @@ footer .logo{width:88px;margin-bottom:12px;background:var(--faint)}
 
 <main class="wrap"><section class="group" id="glossary" aria-label="Glossary"><dl class="gloss"></dl></section></main>
 
-<footer><p><span class="logo" role="img" aria-label="Pinaca"></span>© 2026 Pinaca Labs. PRISM is a product of Pinaca Labs. Terms follow the “PRISM — Product and System Overview” workshop deck.</p></footer>
+<footer><p><span class="logo" role="img" aria-label="Pinaca"></span>© 2026 Pinaca Labs. PRISM and ASTRA are products of Pinaca Labs. Terms follow the “PRISM — Product and System Overview” workshop deck.</p></footer>
 
 <script>
 const GLOSSARY = [
- ["Compatibility lane (JPEG ring)","A side path shown dashed on the architecture slide: still pictures kept for forensics only, outside the live video path."],
- ["Embedder","The service that picks the best 3 frames of each tracked person or vehicle and turns them into vectors for search."],
- ["FAISS","The search index behind prism-vector, which matches faces quickly by searching a whole batch at once."],
- ["Hardware-bound licence","A licence tied to the box’s own hardware, so the software can’t simply be copied to another machine."],
- ["LAN","The local network at the customer’s site that the cameras sit on."],
- ["Maintainer","The one service allowed to delete data. At 85% disk it removes the oldest footage and says so."],
- ["MongoDB / Redis","MongoDB is PRISM’s main database. Redis (Redis Streams) carries live events between services."],
- ["Network Setup","The screen and service that scan the site for cameras: ONVIF first, known RTSP addresses as a fallback."],
- ["NVR alarms","Alarms taken from a customer’s AI-capable recorders, read-only, with every message logged."],
- ["Parity check","A check that keeps the customer install package’s configuration identical to the version that was tested."],
- ["prism-core","PRISM’s brain: the API, live events and alert rules. Integrators build on it, so it changes slowly."],
- ["Qdrant","The database that stores the vectors of people and vehicles, so they can be searched by words or example."],
- ["SigLIP2","The AI model that turns pictures of people and vehicles into vectors for search."],
- ["Source manager","The one place where every camera starts. It adds AI to a camera only when a plugin is switched on."],
- ["Stream sink","The service that sends the live view out. It passes video through without re-compressing it and fills any stall with a holding image."],
- ["Thinning","Reducing a fast camera’s frame rate, to about 12 frames per second, so the AI isn’t overloaded."],
- ["TLS","Encryption for connections to the box, the same technology behind the padlock in a web browser."],
- ["YOLOv8m","The AI model that finds people and vehicles. It runs only where something is moving."],
- ["ZMQ","A fast messaging link that carries encoded video between services inside the box."],
- ["Activity Layer","A saved search you teach by example: mark moments as normal or suspicious, and PRISM flags new moments like the suspicious ones."],
- ["Alert inbox","The single place where every kind of PRISM alert lands, to be reviewed and acknowledged."],
- ["Alert workflow","A short chain of AI checks (such as a face check or a scene check) that a recorder’s alarm passes through before reaching an operator."],
- ["Anonymous watchlist","Where unknown faces are kept, unnamed, until an operator decides who they are."],
- ["API","The documented interface other software uses to talk to PRISM. Partners build their own tools on it."],
- ["ASTRA","PRISM’s sibling product. Both share the same command-center look and feel."],
- ["Audit log","An automatic record of every change: who did what, and what it was before and after."],
- ["Bounding box","The rectangle drawn around a face, person or vehicle on screen."],
- ["Camera lane","The processing path for one AI-enabled camera. Each uses some GPU memory."],
- ["Case","A forensic investigation: uploaded footage and everything found in it, kept until the case is deleted."],
- ["Cooldown","A pause after an alert so the same event doesn’t fire again and again."],
- ["Crop","A cut-out of part of a picture, such as just the face or just the plate."],
- ["Decode / encode","Unpacking compressed camera video into pictures, and packing pictures back into video."],
- ["Edge device","A small computer placed at the site itself, like a remote post, rather than in a server room."],
- ["Embedding","A list of numbers that captures what a face or image looks like, so a computer can compare them. Think of it as a visual fingerprint."],
- ["Encoder session","A slot on the graphics chip for compressing video. Each box has a fixed number."],
- ["Enrolment","Adding a face to the system’s memory so it can be recognised later."],
- ["Forensics","Searching footage after the fact, including footage uploaded from elsewhere."],
- ["fps (frames per second)","How many pictures per second a camera sends. PRISM needs at least 10."],
- ["Frame","One still picture from a video."],
- ["Frame pool","A short-term memory holding the last few seconds of full-quality frames that every AI feature reads from."],
- ["Gallery","The stored pictures of each known person, up to 10, improving automatically."],
- ["Gateway","The single secure front door through which everyone reaches the box."],
- ["GPU","The graphics processor that runs the AI. Its memory is PRISM’s scarcest resource."],
- ["GPU memory (VRAM)","Memory on the graphics card. It sets how many cameras can have AI on one box."],
- ["H.264 / H.265","Common video compression formats used by security cameras. PRISM accepts both from cameras. H.265 (also called HEVC) needs roughly half the bandwidth and storage for the same picture. Video from AI cameras goes on to the browser as H.264."],
- ["Half-closed","Open where customers build, protected where our know-how lives, sealed for the AI models."],
- ["Hotlist","A list of plates or people that should trigger an alert when seen."],
- ["Jetson Orin NX","A small, low-power NVIDIA computer with 8 GB memory. PRISM’s edge box for small or remote sites."],
- ["Licence seat","A paid allowance for one camera or feature on a box."],
- ["Liveness","A check that a face is a real person, not a photo or a screen. Answers live, spoof or unverifiable."],
- ["LPR / ANPR","Licence plate recognition, also called automatic number plate recognition."],
- ["MediaMTX","The video server that relays, records and streams every camera to the browser."],
- ["Motion gating","Running heavy AI only where something is moving, to save the GPU."],
- ["NVR / VMS","Network video recorder, or video management system: the existing equipment that records cameras."],
- ["On-premises","Running on the customer’s own hardware at their site, not in the cloud."],
- ["ONVIF","An industry standard that lets PRISM discover and talk to cameras from many brands."],
- ["Operator","The person watching screens and responding to alerts."],
- ["Passage","One vehicle driving past a camera. Plate reading produces one read per passage."],
- ["Holding image (placeholder frame)","The image shown when a camera stalls, so the screen never goes black."],
- ["Plugin","An AI feature switched on per camera: Faces, Objects or Embeddings today, with Plates and Cascades listed as coming soon."],
- ["Plugin cutover","The 20 October 2026 change that made AI a per-camera switch. Figures measured before it may not match today’s product."],
- ["Appearance history","Where and when a known person has been seen, across every camera."],
- ["Candidate promise (C5)","A promise under consideration but not yet made. C5 is “a name within one second”."],
- ["Cascade","A plugin listed as coming soon. Its details haven’t been published yet."],
- ["Contact tracing","Finding who was near a known person, based on face identity and who appeared on the same camera at the same time."],
- ["Face engine","The face-detection AI model loaded on the graphics card. One engine serves every AI camera; today’s default handles 8 cameras."],
- ["Frame ID","The unique number stamped on every frame, so every part of PRISM refers to exactly the same picture."],
- ["Fusion model","A planned model that would link a face, a vehicle and its plate. Not built; whether to build it is an open decision."],
- ["MB / MiB","Units of memory. A MiB is about 5% bigger than a MB; for a conversation, treat them as the same."],
- ["npipe","The video-path service: brings AI cameras in, unpacks each frame once, shares it, draws boxes and sends the video on. It contains no AI."],
- ["Recognition worker","The program that turns a face crop into an embedding and looks for a match. Each copy holds about 480 MiB of GPU memory."],
- ["Roles","Viewer (look only), Operator (also start and stop cameras), Admin (change settings) and Superadmin (above Admin)."],
- ["Scaler","Automatic logic that adds resources when a queue grows. PRISM never lets one take memory from cameras."],
- ["Unknown Faces store","Where faces that weren’t good enough to enrol are kept, one per camera, track and day, and stay searchable for a set period."],
- ["Promise (P1–P9)","The nine rules PRISM never breaks, such as “live video never goes dark”."],
- ["PTZ","Pan, tilt, zoom: cameras that can be moved and zoomed remotely."],
- ["Re-identification","Recognising the same person or object on different cameras. PRISM does this only through faces."],
- ["Recognition","Working out who a face belongs to, or what a plate says."],
- ["Retention","How long data is kept before it’s automatically deleted."],
- ["Root user","Someone with full administrator control of a computer."],
- ["RTSP / RTMP / WebRTC / HLS","Standard ways of sending video over a network, from cameras or to browsers."],
- ["Spoof","An attempt to fool face recognition with a photo, video or mask."],
- ["Track","One object followed across consecutive frames on a single camera, with its own ID."],
- ["Unverifiable","Liveness’s answer when it can’t judge. It is never treated as a spoof."],
- ["Vector search","Finding things by visual similarity, using embeddings. Powers “man in a red shirt” search."]
+[
+"Embedder",
+"The service that picks the best 3 frames of each tracked person or vehicle and turns them into vectors for search.",
+""
+],
+[
+"Hardware-bound licence",
+"A licence tied to the box’s own hardware, so the software can’t simply be copied to another machine.",
+""
+],
+[
+"Maintainer",
+"The one service allowed to delete data. At 85% disk it removes the oldest footage and says so.",
+""
+],
+[
+"Network Setup",
+"The screen and service that scan the site for cameras: ONVIF first, known RTSP addresses as a fallback.",
+""
+],
+[
+"Parity check",
+"A check that keeps the customer install package’s configuration identical to the version that was tested.",
+""
+],
+[
+"Source manager",
+"The one place where every camera starts. It adds AI to a camera only when a plugin is switched on.",
+""
+],
+[
+"Stream sink",
+"The service that sends the live view out. It passes video through without re-compressing it and fills any stall with a holding image.",
+""
+],
+[
+"Thinning",
+"Reducing a fast camera’s frame rate, to about 12 frames per second, so the AI isn’t overloaded.",
+""
+],
+[
+"Activity Layer",
+"A saved search you teach by example: mark moments as normal or suspicious, and PRISM flags new moments like the suspicious ones.",
+""
+],
+[
+"Alert inbox",
+"The single place where every kind of PRISM alert lands, to be reviewed and acknowledged.",
+""
+],
+[
+"Alert workflow",
+"A short chain of AI checks (such as a face check or a scene check) that a recorder’s alarm passes through before reaching an operator.",
+""
+],
+[
+"Anonymous watchlist",
+"Where unknown faces are kept, unnamed, until an operator decides who they are.",
+""
+],
+[
+"ASTRA",
+"PRISM’s sibling product. Both share the same command-center look and feel.",
+""
+],
+[
+"Audit log",
+"An automatic record of every change: who did what, and what it was before and after.",
+""
+],
+[
+"Bounding box",
+"The rectangle drawn around a face, person or vehicle on screen.",
+""
+],
+[
+"Camera lane",
+"The processing path for one AI-enabled camera. Each uses some GPU memory.",
+""
+],
+[
+"Case",
+"A forensic investigation: uploaded footage and everything found in it, kept until the case is deleted.",
+""
+],
+[
+"Cooldown",
+"A pause after an alert so the same event doesn’t fire again and again.",
+""
+],
+[
+"Crop",
+"A cut-out of part of a picture, such as just the face or just the plate.",
+""
+],
+[
+"Decode / encode",
+"Unpacking compressed camera video into pictures, and packing pictures back into video.",
+""
+],
+[
+"Edge device",
+"A small computer placed at the site itself, like a remote post, rather than in a server room.",
+""
+],
+[
+"Embedding",
+"A list of numbers that captures what a face or image looks like, so a computer can compare them. Think of it as a visual fingerprint.",
+""
+],
+[
+"Encoder session",
+"A slot on the graphics chip for compressing video. Each box has a fixed number.",
+""
+],
+[
+"Enrolment",
+"Adding a face to the system’s memory so it can be recognised later.",
+""
+],
+[
+"Forensics",
+"Searching footage after the fact, including footage uploaded from elsewhere.",
+""
+],
+[
+"Frame",
+"One still picture from a video.",
+""
+],
+[
+"Frame pool",
+"A short-term memory holding the last few seconds of full-quality frames that every AI feature reads from.",
+""
+],
+[
+"Gallery",
+"The stored pictures of each known person, up to 10, improving automatically.",
+""
+],
+[
+"Gateway",
+"The single secure front door through which everyone reaches the box.",
+""
+],
+[
+"Half-closed",
+"Open where customers build, protected where our know-how lives, sealed for the AI models.",
+""
+],
+[
+"Hotlist",
+"A list of plates or people that should trigger an alert when seen.",
+""
+],
+[
+"Licence seat",
+"A paid allowance for one camera or feature on a box.",
+""
+],
+[
+"Liveness",
+"A check that a face is a real person, not a photo or a screen. Answers live, spoof or unverifiable.",
+""
+],
+[
+"MediaMTX",
+"The video server that relays, records and streams every camera to the browser.",
+""
+],
+[
+"Motion gating",
+"Running heavy AI only where something is moving, to save the GPU.",
+""
+],
+[
+"On-premises",
+"Running on the customer’s own hardware at their site, not in the cloud.",
+""
+],
+[
+"Operator",
+"The person watching screens and responding to alerts.",
+""
+],
+[
+"Passage",
+"One vehicle driving past a camera. Plate reading produces one read per passage.",
+""
+],
+[
+"Holding image (placeholder frame)",
+"The image shown when a camera stalls, so the screen never goes black.",
+""
+],
+[
+"Plugin",
+"An AI feature switched on per camera: Faces, Objects or Embeddings today, with Plates and Cascades listed as coming soon.",
+""
+],
+[
+"Plugin cutover",
+"The 20 October 2026 change that made AI a per-camera switch. Figures measured before it may not match today’s product.",
+""
+],
+[
+"Appearance history",
+"Where and when a known person has been seen, across every camera.",
+""
+],
+[
+"Cascade",
+"A plugin listed as coming soon. Its details haven’t been published yet.",
+""
+],
+[
+"Contact tracing",
+"Finding who was near a known person, based on face identity and who appeared on the same camera at the same time.",
+""
+],
+[
+"Face engine",
+"The face-detection AI model loaded on the graphics card. One engine serves every AI camera; today’s default handles 8 cameras.",
+""
+],
+[
+"Frame ID",
+"The unique number stamped on every frame, so every part of PRISM refers to exactly the same picture.",
+""
+],
+[
+"Fusion model",
+"A planned model that would link a face, a vehicle and its plate. Not built; whether to build it is an open decision.",
+""
+],
+[
+"npipe",
+"The video-path service: brings AI cameras in, unpacks each frame once, shares it, draws boxes and sends the video on. It contains no AI.",
+""
+],
+[
+"Recognition worker",
+"The program that turns a face crop into an embedding and looks for a match. Each copy holds about 480 MiB of GPU memory.",
+""
+],
+[
+"Roles",
+"Viewer (look only), Operator (also start and stop cameras), Admin (change settings) and Superadmin (above Admin).",
+""
+],
+[
+"Scaler",
+"Automatic logic that adds resources when a queue grows. PRISM never lets one take memory from cameras.",
+""
+],
+[
+"Unknown Faces store",
+"Where faces that weren’t good enough to enrol are kept, one per camera, track and day, and stay searchable for a set period.",
+""
+],
+[
+"Re-identification",
+"Recognising the same person or object on different cameras. PRISM does this only through faces.",
+""
+],
+[
+"Recognition",
+"Working out who a face belongs to, or what a plate says.",
+""
+],
+[
+"Retention",
+"How long data is kept before it’s automatically deleted.",
+""
+],
+[
+"Root user",
+"Someone with full administrator control of a computer.",
+""
+],
+[
+"Spoof",
+"An attempt to fool face recognition with a photo, video or mask.",
+""
+],
+[
+"Track",
+"One object followed across consecutive frames on a single camera, with its own ID.",
+""
+],
+[
+"Unverifiable",
+"Liveness’s answer when it can’t judge. It is never treated as a spoof.",
+""
+],
+[
+"Vector search",
+"Finding things by visual similarity, using embeddings. Powers “man in a red shirt” search.",
+""
+],
+[
+"MongoDB",
+"PRISM’s main database. It is a document database: it stores records as flexible, JSON-like documents rather than in fixed tables. It holds most of what PRISM records, such as events and alerts, and prism-core reads from and writes to it.",
+"Database"
+],
+[
+"Redis",
+"A very fast database that keeps its data in the computer’s memory rather than on disk. PRISM uses Redis Streams, an ordered message queue inside Redis, to carry live events from one service to the next, so each service picks them up in order, even if it is briefly busy.",
+"Database"
+],
+[
+"Qdrant",
+"A vector database. It stores the embeddings (visual fingerprints) of people and vehicles made by SigLIP2, so they can be searched by typing a description or by pointing at an example. Face vectors are kept separately, in prism-vector’s FAISS index.",
+"Database"
+],
+[
+"FAISS (Facebook AI Similarity Search)",
+"An open-source library from Meta for very fast similarity search. It is a search index, not a full database: prism-vector keeps PRISM’s face vectors in a FAISS index and matches a whole batch of faces in one call. If faces are edited outside the PRISM app, the index has to be rebuilt.",
+"Search index"
+],
+[
+"Database (DB)",
+"Where PRISM keeps its data. PRISM uses three databases: MongoDB for its main records, Redis for live events passing between services, and Qdrant for the vectors behind search. Faces are matched separately, in a FAISS index. All of them run on the box at the customer’s site.",
+"Database"
+],
+[
+"API (Application Programming Interface)",
+"A documented set of rules that lets other software talk to PRISM: ask for data, send commands and receive live events. Integrators build their own tools on PRISM’s API, so it ships open and readable and changes slowly.",
+""
+],
+[
+"AI (artificial intelligence)",
+"Software that learns patterns from examples. In PRISM it finds faces, people and vehicles, recognises known faces, reads plates and powers search. It runs as plugins switched on per camera, beside the video path, never inside it.",
+""
+],
+[
+"LAN (local area network)",
+"The private network inside the customer’s site that the cameras, recorders and the PRISM box share. PRISM finds cameras by scanning it, and nothing has to go out to the internet.",
+""
+],
+[
+"TLS (Transport Layer Security)",
+"The standard encryption for connections over a network, the same technology behind the padlock in a web browser. Every connection to the PRISM box goes through the gateway over TLS.",
+""
+],
+[
+"SigLIP2 (Sigmoid Loss for Language–Image Pre-training, version 2)",
+"An AI model from Google that turns pictures and text into vectors in the same space. That is what lets you type “man in a red shirt” and find matching people and vehicles. PRISM stores its vectors in Qdrant.",
+""
+],
+[
+"YOLOv8m (You Only Look Once, version 8, medium size)",
+"A widely used AI model that finds and labels objects in a picture in one pass. PRISM uses it to find people and vehicles, and runs it only where something is moving, to save the GPU.",
+""
+],
+[
+"ZMQ (ZeroMQ)",
+"An open-source messaging library for sending data between programs very quickly. Inside the box it carries the encoded video from npipe to the stream sink.",
+""
+],
+[
+"Compatibility lane (JPEG ring)",
+"A side path shown dashed on the architecture slide: still pictures kept for forensics only, outside the live video path. JPEG (Joint Photographic Experts Group) is the common still-photo format; a “ring” is a fixed-size store where the newest picture overwrites the oldest.",
+""
+],
+[
+"NVR alarms",
+"Alarms taken from a customer’s AI-capable network video recorders (NVRs). PRISM listens read-only with one subscription per recorder, logs every message, and never changes the recorder’s settings.",
+""
+],
+[
+"prism-core",
+"PRISM’s brain: the API, live events and alert rules. It keeps PRISM’s records in the MongoDB database. Integrators build on it, so it changes slowly.",
+""
+],
+[
+"GPU (graphics processing unit)",
+"The graphics chip that runs PRISM’s AI. It is fast at the maths AI needs, but its memory is limited, which makes it PRISM’s scarcest resource.",
+""
+],
+[
+"GPU memory (VRAM, video random-access memory)",
+"The memory on the graphics card itself. AI cameras, the face engine and recognition workers all share it, so it sets how many cameras can have AI on one box. The box keeps at least 300 MiB free, or it refuses new AI cameras.",
+""
+],
+[
+"H.264 / H.265 (AVC / HEVC)",
+"The two most common video compression formats used by security cameras. H.264 is also called AVC (Advanced Video Coding); H.265 is HEVC (High Efficiency Video Coding) and needs roughly half the bandwidth and storage for the same picture. PRISM accepts both from cameras, and video from AI cameras goes on to the browser as H.264.",
+""
+],
+[
+"LPR / ANPR (licence plate recognition / automatic number plate recognition)",
+"Two names for the same thing: reading vehicle number plates automatically. PRISM’s plate reader (prism-lpr) makes one read per vehicle passage, commits it only after 3 frames and a 0.72 score, and is tuned for Indian plates.",
+""
+],
+[
+"NVR / VMS (network video recorder / video management system)",
+"The customer’s existing equipment for cameras. An NVR is a box that records camera video to disk; a VMS is the software that manages, records and displays many cameras. PRISM reads from them but never changes their settings.",
+""
+],
+[
+"ONVIF (Open Network Video Interface Forum)",
+"An industry standard that lets software discover and control IP cameras from many brands in the same way. PRISM uses ONVIF first to find cameras, and falls back to known RTSP addresses if it is switched off.",
+""
+],
+[
+"PTZ (pan, tilt, zoom)",
+"Cameras that can be turned left and right (pan), up and down (tilt) and zoomed remotely. Every continuous PTZ move in PRISM stops by itself after 10 seconds, so a lost connection can’t leave a camera spinning.",
+""
+],
+[
+"RTSP / RTMP / WebRTC / HLS",
+"Standard ways of sending video over a network. RTSP (Real Time Streaming Protocol) is how most cameras send video. RTMP (Real-Time Messaging Protocol) is used by cameras that push their video to PRISM. WebRTC (Web Real-Time Communication) gives the browser a live view with very little delay. HLS (HTTP Live Streaming) sends video to the browser in short chunks, which is more robust but adds a few seconds of delay.",
+""
+],
+[
+"MB / MiB (megabyte / mebibyte)",
+"Units of memory. A megabyte is 1,000,000 bytes; a mebibyte is 1,048,576 bytes, about 5% bigger. For a conversation, treat them as the same.",
+""
+],
+[
+"fps (frames per second)",
+"How many still pictures per second a camera sends. More frames means smoother video but more work for the AI. PRISM needs at least 10, and thins faster cameras to about 12 for the AI.",
+""
+],
+[
+"MP (megapixel)",
+"One million pixels, a measure of picture resolution. A 4 MP camera produces pictures of about 4 million pixels. The Jetson edge box handles four 4 MP cameras at 10 fps with faces only.",
+""
+],
+[
+"Candidate promise (C5)",
+"A promise under consideration but not yet made; the “C” stands for candidate. C5 is “a name within one second”. The worst case measured so far was 945 ms.",
+""
+],
+[
+"Promise (P1–P9)",
+"The nine rules PRISM never breaks, numbered P1 to P9 (“P” for promise), such as “live video never goes dark”. A change that would break one goes back to the product owner.",
+""
+],
+[
+"Jetson Orin NX",
+"A small, low-power computer from NVIDIA with a built-in GPU and 8 GB of memory. PRISM’s edge box for small or remote sites.",
+""
+]
 ];
 
 const dl = document.querySelector("#glossary dl");
 const input = document.getElementById("q");
 const countEl = document.getElementById("count");
 const terms = [];
-GLOSSARY.sort((a,b)=>a[0].localeCompare(b[0])).forEach(([t,def]) => {
+GLOSSARY.sort((a,b)=>a[0].localeCompare(b[0])).forEach(([t,def,tag]) => {
   const div = document.createElement("div");
   div.className = "term";
-  div.innerHTML = `<dt>${t}</dt><dd>${def}</dd>`;
+  const chip = tag ? ` <span class="tag">${tag}</span>` : "";
+  div.innerHTML = `<dt>${t}${chip}</dt><dd>${def}</dd>`;
   dl.appendChild(div);
-  terms.push({el:div, dt:div.querySelector("dt"), dd:div.querySelector("dd"), t, def, text:(t+" "+def).toLowerCase()});
+  terms.push({el:div, dt:div.querySelector("dt"), dd:div.querySelector("dd"), t, def, chip, text:(t+" "+def+" "+(tag||"")).toLowerCase()});
 });
 function esc(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
 function hl(html, term){
@@ -336,7 +698,7 @@ function filter(){
   terms.forEach(g => {
     const hit = !t || g.text.includes(t);
     g.el.hidden = !hit;
-    g.dt.innerHTML = hl(g.t, term); g.dd.innerHTML = hl(g.def, term);
+    g.dt.innerHTML = hl(g.t, term) + g.chip; g.dd.innerHTML = hl(g.def, term);
     if(hit) shown++;
   });
   let empty = document.getElementById("empty");
